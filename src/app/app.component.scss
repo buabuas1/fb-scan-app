@@ -1,3 +1,28 @@
 :host {
-  
+
+}
+.modal-header{
+    border-bottom: 0;
+    padding: 15px 15px 20px 34px;
+    .modal-title{
+        font-size: 13px + 3px;
+        color: #111;
+        font-weight: bold;
+        flex: 1;
+    }
+    .heading-actions{
+        .btn-icon{
+            i{
+                color: #666;
+            }
+        }
+    }
+    .close{
+        width: 14px;
+        height: 14px;
+        background: gray;
+        span{
+            background-color: #666;
+        }
+    }
 }
