@@ -5,9 +5,11 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
+import {ElectronService} from "../core/services";
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, SharedModule, HomeRoutingModule]
+  imports: [CommonModule, SharedModule, HomeRoutingModule],
+  providers: [ElectronService]
 })
 export class HomeModule {}
