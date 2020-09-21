@@ -6,10 +6,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { FormsModule } from '@angular/forms';
-
+import {ModalComponent} from './modal/modal.component';
+import { ModalModule, PopoverModule, CollapseModule } from 'ngx-bootstrap';
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective],
-  imports: [CommonModule, TranslateModule, FormsModule],
-  exports: [TranslateModule, WebviewDirective, FormsModule]
+  declarations: [PageNotFoundComponent, WebviewDirective,
+      ModalComponent],
+  imports: [CommonModule, TranslateModule, FormsModule,
+      ModalModule.forRoot(),
+      PopoverModule.forRoot(),
+      CollapseModule.forRoot()
+  ],
+  exports: [TranslateModule, WebviewDirective, FormsModule,
+      ModalComponent]
 })
 export class SharedModule {}

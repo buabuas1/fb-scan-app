@@ -1,0 +1,12 @@
+<div class="modal-header" *ngIf="!config.isCustomModalHeader">
+    <h4 class="modal-title pull-left"  [innerHTML]="config.title"></h4>
+    <button type="button" class="close pull-right" skip-disable aria-label="Close" (click)="close()">
+    <span aria-hidden="true"></span>
+    </button>
+</div>
+<div #modalBody *ngIf="!config.template || config.template.length === 0">
+
+</div>
+<div [innerHTML]="config.template" *ngIf="config.template && config.template.length > 0">
+
+</div>
