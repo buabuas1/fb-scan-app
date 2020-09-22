@@ -56,9 +56,6 @@ export class ElectronService {
                   resolve(data);
               });
               response.on('data', (chunk) => {
-                  // this.fs.writeFile('test', chunk.toString('utf-8'), null, () => console.log('done'));
-                  // this.fs.writeFile('test1', chunk.toString(), null, () => console.log('done'));
-                  // resolve(chunk.toString('utf-8'));
                   // console.log(`BODY: ${chunk}`)
                   data += chunk.toString('utf-8');
               });
