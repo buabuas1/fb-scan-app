@@ -8,12 +8,14 @@ import {SharedModule} from '../shared/shared.module';
 import {ElectronService} from "../core/services";
 import {BodyDetailFormComponent} from './component/body-detail-form/body-detail-form.component';
 import {ModalService} from '../core/services/modal/modal.service';
+import {LoggerService} from '../core/services/logger/logger.service';
 
 @NgModule({
     declarations: [HomeComponent, BodyDetailFormComponent],
     imports: [CommonModule, SharedModule, HomeRoutingModule],
     providers: [ElectronService,
-        ModalService
+        ModalService,
+        LoggerService
     ]
 })
 export class HomeModule {

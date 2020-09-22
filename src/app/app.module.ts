@@ -19,7 +19,15 @@ import { DetailModule } from './detail/detail.module';
 
 import { AppComponent } from './app.component';
 import {BsModalService} from 'ngx-bootstrap';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {ToastrModule } from 'ng6-toastr-notifications';
+// export class CustomOption extends ToastOptions {
+//     animate = 'flyRight'; // you can override any options available
+//     newestOnTop = false;
+//     showCloseButton = true;
+//     positionClass = 'toast-bottom-right';
+// }
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -42,9 +50,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+      BrowserAnimationsModule,
+      ToastrModule.forRoot()
   ],
-  providers: [BsModalService],
+  providers: [BsModalService,
+      ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -5,6 +5,7 @@ import * as queryString from 'query-string';
 import {GetGroupBodyModel} from '../common/model/get-group-body.model';
 import {ModalService} from '../core/services/modal/modal.service';
 import {BodyDetailFormComponent} from './component/body-detail-form/body-detail-form.component';
+import {LoggerService} from '../core/services/logger/logger.service';
 
 @Component({
     selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
 
     constructor(private router: Router,
                 private electronService: ElectronService,
-                private modalService: ModalService
+                private modalService: ModalService,
+                private loggerService: LoggerService
     ) {
     }
 
@@ -37,6 +39,7 @@ export class HomeComponent implements OnInit {
     }
 
     public callApi() {
+        this.loggerService.success('abc');
         this.body.setBody('fb_dtsg', 'AQE-2qJ4zS4F:AQHRSF1ouoP5');
         this.electronService.callApi(queryString.stringify(this.body));
     }
