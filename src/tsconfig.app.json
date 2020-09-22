@@ -11,7 +11,8 @@
     "polyfill.ts"
   ],
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+      "**/common/constant.ts"
   ],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

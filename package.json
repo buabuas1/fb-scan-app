@@ -114,7 +114,6 @@
     "inspector": false
   },
   "dependencies": {
-    "ng2-toastr": "4.1.2",
     "ng6-toastr-notifications": "1.0.4",
     "rxjs-compat": "6.6.3"
   }

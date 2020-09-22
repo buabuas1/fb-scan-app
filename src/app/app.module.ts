@@ -4,7 +4,7 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -22,12 +22,8 @@ import {BsModalService} from 'ngx-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ToastrModule } from 'ng6-toastr-notifications';
-// export class CustomOption extends ToastOptions {
-//     animate = 'flyRight'; // you can override any options available
-//     newestOnTop = false;
-//     showCloseButton = true;
-//     positionClass = 'toast-bottom-right';
-// }
+import {MyHttpInterceptor} from './common/http/httpinterceptor';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -55,6 +51,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       ToastrModule.forRoot()
   ],
   providers: [BsModalService,
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: MyHttpInterceptor,
+          multi: true
+      },
       ],
   bootstrap: [AppComponent]
 })

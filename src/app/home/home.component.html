@@ -1,9 +1,11 @@
 <div class="container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+    <h1 class="title">
+        {{ 'PAGES.HOME.TITLE' | translate }}
+    </h1>
 
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
-  <button (click)="callApi()">fetch</button>
-  <button (click)="onOpenSetting()">open Modal</button>
+    <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
+    <label>nhóm</label>
+    <input type="text" [(ngModel)]="groups">
+    <button (click)="callApi()">fetch</button>
+    <button (click)="onOpenSetting()">open Modal</button>
 </div>

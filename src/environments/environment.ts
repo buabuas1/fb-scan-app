@@ -1,4 +1,5 @@
 export const AppConfig = {
   production: false,
-  environment: 'LOCAL'
+  environment: 'LOCAL',
+    beHost: 'https://fs-be.herokuapp.com/'
 };

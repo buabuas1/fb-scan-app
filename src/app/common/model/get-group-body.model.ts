@@ -83,4 +83,15 @@ export class GetGroupBodyModel {
     public setBody(field: string, value: string) {
         this[field] = value;
     }
+    public setGroupId(groupId: string) {
+        const body = JSON.parse(this.variables);
+        body.groupID = groupId;
+        this.variables = JSON.stringify(body);
+    }
+    public numberOfPost(number: number) {
+        const body = JSON.parse(this.variables);
+        body.regular_stories_count = number;
+        body.regular_stories_stream_initial_count = number - 1;
+        this.variables = JSON.stringify(body);
+    }
 }
