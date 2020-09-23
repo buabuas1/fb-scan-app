@@ -70,3 +70,5 @@ export const BDS_REGEX = [
         ]
     }
 ];
+
+export const API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';

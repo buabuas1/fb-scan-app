@@ -7,7 +7,7 @@ import {ModalService} from '../core/services/modal/modal.service';
 import {BodyDetailFormComponent} from './component/body-detail-form/body-detail-form.component';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
-import {BdsTypeArray} from '../common/constant';
+import {API_TOKEN_LC_KEY, BdsTypeArray} from '../common/constant';
 import {IBDSModel} from '../common/model/facebook/IBDS.model';
 import * as R from 'ramda';
 import {moment} from 'ngx-bootstrap/chronos/test/chain';
@@ -24,6 +24,10 @@ export class HomeComponent implements OnInit {
     public body = new GetGroupBodyModel();
     public groups = '';
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
+    public fbToken = '';
+    public callSaveToken = '';
+    public FB_TOKEN_LC_KEY = 'FB_TOKEN_LC_KEY';
+    // public API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -34,6 +38,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.body.setBody('fb_dtsg', localStorage.getItem(this.FB_TOKEN_LC_KEY));
     }
 
     onOpenSetting() {
@@ -59,9 +64,10 @@ export class HomeComponent implements OnInit {
             await this.getGroupData(removeSpace(g[i]));
         }
         this.loggerService.warning('Đã quét xong! Bạn có thể tiếp tục');
+        console.log('GroupId: Done!');
     };
     public async getGroupData(groupId: string) {
-        this.body.setBody('fb_dtsg', 'AQE-2qJ4zS4F:AQHRSF1ouoP5');
+        // this.body.setBody('fb_dtsg', 'AQE-2qJ4zS4F:AQHRSF1ouoP5');
         this.body.setGroupId(groupId);
         this.body.numberOfPost(30);
         let rs = ''
@@ -87,5 +93,14 @@ export class HomeComponent implements OnInit {
             console.log('GroupId: ', groupId);
             this.loggerService.error(`Có lỗi tại groupdID: ${groupId}`);
         }
+    }
+
+    public saveFbToken() {
+        localStorage.setItem(this.FB_TOKEN_LC_KEY, this.fbToken);
+        this.body.setBody('fb_dtsg', this.fbToken);
+    }
+
+    public saveApiToken() {
+        localStorage.setItem(API_TOKEN_LC_KEY, this.callSaveToken);
     }
 }
