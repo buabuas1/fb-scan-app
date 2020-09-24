@@ -11,7 +11,7 @@ import {API_TOKEN_LC_KEY, BdsTypeArray} from '../common/constant';
 import {IBDSModel} from '../common/model/facebook/IBDS.model';
 import * as R from 'ramda';
 import {moment} from 'ngx-bootstrap/chronos/test/chain';
-import {removeSpace} from '../common/util';
+import {getMessageFromError, removeSpace} from '../common/util';
 import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
 import {BdsMongoModel} from '../common/model/facebook/bds-mongo.model';
 
@@ -25,9 +25,10 @@ export class HomeComponent implements OnInit {
     public groups = '';
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
     public fbToken = '';
-    public callSaveToken = '';
     public FB_TOKEN_LC_KEY = 'FB_TOKEN_LC_KEY';
     // public API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
+    public user = 'sonnvptit2402@gmail.com';
+    public password = '123';
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -101,6 +102,12 @@ export class HomeComponent implements OnInit {
     }
 
     public saveApiToken() {
-        localStorage.setItem(API_TOKEN_LC_KEY, this.callSaveToken);
+        this.bdsContentApiService.login(this.user, this.password).subscribe(u => {
+            localStorage.setItem(API_TOKEN_LC_KEY, u.token);
+            this.loggerService.success('Thành công!');
+        }, error => {
+            this.loggerService.error(getMessageFromError(error));
+        })
+
     }
 }
