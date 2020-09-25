@@ -60,7 +60,7 @@ export class BdsContentApiService {
             })
                 .take(1)
                 .subscribe((rs: any) => {
-                    obs.next(rs.user);
+                    obs.next(rs);
                 });
         });
     }

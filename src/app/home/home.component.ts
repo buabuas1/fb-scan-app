@@ -29,6 +29,8 @@ export class HomeComponent implements OnInit {
     // public API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
     public user = 'sonnvptit2402@gmail.com';
     public password = '123';
+    public log = '';
+    public numberOfPost = 30;
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -66,11 +68,12 @@ export class HomeComponent implements OnInit {
         }
         this.loggerService.warning('Đã quét xong! Bạn có thể tiếp tục');
         console.log('GroupId: Done!');
+        this.addLog('GroupId: Done!');
     };
     public async getGroupData(groupId: string) {
         // this.body.setBody('fb_dtsg', 'AQE-2qJ4zS4F:AQHRSF1ouoP5');
         this.body.setGroupId(groupId);
-        this.body.numberOfPost(30);
+        this.body.numberOfPost(this.numberOfPost);
         let rs = ''
         try {
             rs = await this.electronService.callApi(queryString.stringify(this.body));
@@ -92,6 +95,7 @@ export class HomeComponent implements OnInit {
         } catch (e) {
             console.log('Lỗi GroupId', e);
             console.log('GroupId: ', groupId);
+            this.addLog('GroupId: ' + groupId);
             this.loggerService.error(`Có lỗi tại groupdID: ${groupId}`);
         }
     }
@@ -110,4 +114,9 @@ export class HomeComponent implements OnInit {
         })
 
     }
+
+    private addLog(t: string) {
+        this.log+= '\n' + t;
+    }
+
 }
