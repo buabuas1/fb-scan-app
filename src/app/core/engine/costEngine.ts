@@ -9,8 +9,9 @@ export class CostEngine implements ICost {
     getCosts(entity: IBDSModel): any[] {
         let m;
         const cost = [];
-        const content = entity.content ? removeVietnameseTones(entity.content)
-            .replace(this.regexTrash, '').toLowerCase() : entity.content;
+        const contentFull = entity.isComment ? entity.content + ' ' + entity.parentContent : entity.content;
+        const content = contentFull ? removeVietnameseTones(contentFull)
+            .replace(this.regexTrash, '').toLowerCase() : contentFull;
         while ((m = this.regex.exec(content)) !== null) {
             // This is necessary to avoid infinite loops with zero-width matches
             if (m.index === this.regex.lastIndex) {
