@@ -17,6 +17,8 @@ export class GroupFeedModel implements IBDSModel {
     public id: string;
     public authorId: string;
     public viewContent: string;
+    public isComment: boolean;
+    public parentContent: string;
     constructor(feed: any) {
         try {
             this.url = feed.node.comet_sections.context_layout.story.comet_sections.timestamp.story.url;
@@ -29,6 +31,7 @@ export class GroupFeedModel implements IBDSModel {
                 .comment_count.total_count;
             this.authorId = feed.node.comet_sections.context_layout.story.actors[0].id;
             this.groupId = getGroupIdFromUrl(this.url);
+            this.isComment = false;
         } catch (e) {
             console.log('Lỗi tại ', feed);
             console.log('Link ', this.url);

@@ -7,33 +7,37 @@
     <div class="row">
         <div class="col-md-4">
             <div class="m2">
-                <label>FB_TOKEN</label>
+                <label><b>FB_TOKEN</b></label>
                 <input type="text" [(ngModel)]="fbToken">
                 <button class="btn btn-sm btn-success" (click)="saveFbToken()">Save</button>
             </div>
 
             <div class="m2">
-                <div>Call save token</div>
-                <div>Email</div>
+                <div><b>Call save token</b></div>
+                <div><b>Email</b></div>
                 <input type="text" [(ngModel)]="user">
-                <div>PW</div>
+                <div><b>PW</b></div>
                 <input type="password" [(ngModel)]="password">
                 <button class="btn btn-sm btn-success" (click)="saveApiToken()">Save</button>
                 <div class="m2">
-                    <div>Số bài muốn lấy</div>
+                    <div><b>Số bài muốn lấy</b></div>
                     <input type="number" [(ngModel)]="numberOfPost"/>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="m2">
-                <div>Nhóm</div>
+                <div><b>Nhóm</b></div>
                 <input type="text" [(ngModel)]="groups">
                 <button class="btn btn-sm btn-success" (click)="callApi()">Fetch</button>
             </div>
             <div class="m2">
-                <div>Log</div>
+                <div><b>Log</b></div>
                 <textarea [(ngModel)]="log"></textarea>
+            </div>
+            <div class="m2">
+                    <div><b>Loại:</b></div>
+                    <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
             </div>
         </div>
 

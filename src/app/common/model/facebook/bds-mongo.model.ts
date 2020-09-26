@@ -9,6 +9,8 @@ export class BdsMongoModel {
     public groupId: string;
     public commentCount: number;
     public authorId: string;
+    public isComment: boolean;
+    public parentContent: string;
 
     constructor(source: any) {
         this.content = source.content;
@@ -21,5 +23,7 @@ export class BdsMongoModel {
         this.groupId = source.groupId;
         this.commentCount = source.commentCount;
         this.authorId = source.authorId;
+        this.isComment = source.isComment;
+        this.parentContent = source.parentContent;
     }
 }

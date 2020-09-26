@@ -114,6 +114,12 @@
     "inspector": false
   },
   "dependencies": {
+    "@angular/localize": "10.0.14",
+    "@progress/kendo-angular-common": "1.2.3",
+    "@progress/kendo-angular-dropdowns": "4.3.2",
+    "@progress/kendo-angular-l10n": "2.0.2",
+    "@progress/kendo-angular-popup": "3.0.6",
+    "@progress/kendo-theme-default": "4.23.0",
     "ng6-toastr-notifications": "1.0.4",
     "rxjs-compat": "6.6.3"
   }

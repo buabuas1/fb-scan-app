@@ -126,7 +126,8 @@ export class BdsTypeService {
                     .feedback_target_with_context.display_comments.edges) {
                     f.node.comet_sections.feedback.story.feedback_context
                         .feedback_target_with_context.display_comments.edges.forEach(c => {
-                        rs.push(new CommentModel(c));
+                        const parentContent = f.node.comet_sections.content.story.comet_sections.message.story.message.text;
+                        rs.push(new CommentModel(c, parentContent));
                     });
                 }
             } catch (e) {

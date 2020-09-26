@@ -31,6 +31,19 @@ export class HomeComponent implements OnInit {
     public password = '123';
     public log = '';
     public numberOfPost = 30;
+    public listItems = BdsTypeArray;
+    public model: any = {
+        typeDate: 'all',
+        from: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
+        to: new Date(),
+        bdsType: [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]], // TIM_PHONG
+        typePrice: 'all',
+        priceFrom: 0,
+        priceTo: 100000000,
+        searchText: '',
+        groupIds: ''
+    };
+
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -80,7 +93,7 @@ export class HomeComponent implements OnInit {
             this.loggerService.success(`get success: ${groupId}`);
             let data = this.fbGroupService.processScanData(rs.toString()) as IBDSModel[];
             data = data.filter(r =>
-                R.any(i => this.defaultSaveType.findIndex(h => h.key === i) !== -1,
+                R.any(i => this.model.bdsType.findIndex(h => h.key === i) !== -1,
                     r.contentTypes) && r.postTime.getTime() > moment(new Date()).add(-2, 'day'));
             console.log('rs', data);
             const save = data.map(v => {
@@ -119,4 +132,7 @@ export class HomeComponent implements OnInit {
         this.log+= '\n' + t;
     }
 
+    public onBdsTypeChange($event: any[]) {
+
+    }
 }

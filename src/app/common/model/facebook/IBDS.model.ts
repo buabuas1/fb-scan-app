@@ -14,4 +14,6 @@ export interface IBDSModel {
     commentCount: number;
     authorId: string;
     viewContent: string;
+    isComment: boolean;
+    parentContent: string;
 }
