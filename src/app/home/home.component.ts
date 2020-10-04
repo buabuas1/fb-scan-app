@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
                 continue;
             }
             await this.getGroupData(removeSpace(g[i]));
-            this.loggerService.success(`${i+1} of ${length}`);
+            this.loggerService.success(`${Math.round((i+1)*100/length)}%`);
         }
         this.loggerService.warning('Đã quét xong! Bạn có thể tiếp tục');
         console.log('GroupId: Done!');
