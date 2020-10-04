@@ -73,11 +73,13 @@ export class HomeComponent implements OnInit {
 
     public async callApi() {
         const g = this.groups.split(',');
-        for (let i = 0; i < g.length; i++) {
+        const length = g.length;
+        for (let i = 0; i < length; i++) {
             if (!g[i]) {
                 continue;
             }
             await this.getGroupData(removeSpace(g[i]));
+            this.loggerService.success(`${i+1} of ${length}`);
         }
         this.loggerService.warning('Đã quét xong! Bạn có thể tiếp tục');
         console.log('GroupId: Done!');
@@ -129,7 +131,7 @@ export class HomeComponent implements OnInit {
     }
 
     private addLog(t: string) {
-        this.log+= '\n' + t;
+        this.log+= `\n ${new Date().toLocaleTimeString()} ${t}`;
     }
 
     public onBdsTypeChange($event: any[]) {
