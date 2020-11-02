@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivationStart, Router, RouterOutlet} from '@angular/router';
 import {ElectronService} from "../core/services";
 import * as queryString from 'query-string';
 import {GetGroupBodyModel} from '../common/model/get-group-body.model';
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
         searchText: '',
         groupIds: ''
     };
-
+    @ViewChild(RouterOutlet) outlet: RouterOutlet;
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -54,6 +54,10 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.router.events.subscribe(e => {
+            if (e instanceof ActivationStart && e.snapshot.outlet === "/")
+                this.outlet.deactivate();
+        });
         this.body.setBody('fb_dtsg', localStorage.getItem(this.FB_TOKEN_LC_KEY));
     }
 

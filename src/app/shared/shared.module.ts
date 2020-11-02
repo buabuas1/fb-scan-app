@@ -9,16 +9,20 @@ import { FormsModule } from '@angular/forms';
 import {ModalComponent} from './modal/modal.component';
 import { ModalModule, PopoverModule, CollapseModule } from 'ngx-bootstrap';
 import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
+import { HeaderComponent } from './components/header/header.component';
+import {RouterModule} from '@angular/router';
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective,
-      ModalComponent],
+      ModalComponent,
+      HeaderComponent],
   imports: [CommonModule, TranslateModule, FormsModule,
       ModalModule.forRoot(),
       PopoverModule.forRoot(),
       CollapseModule.forRoot(),
-      DropDownsModule
+      DropDownsModule,
+      RouterModule
   ],
   exports: [TranslateModule, WebviewDirective, FormsModule, DropDownsModule,
-      ModalComponent]
+      ModalComponent, HeaderComponent]
 })
 export class SharedModule {}

@@ -15,7 +15,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { HomeModule } from './home/home.module';
-import { DetailModule } from './detail/detail.module';
+import { GroupModule } from './group/group.module';
 
 import { AppComponent } from './app.component';
 import {BsModalService} from 'ngx-bootstrap';
@@ -23,6 +23,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ToastrModule } from 'ng6-toastr-notifications';
 import {MyHttpInterceptor} from './common/http/httpinterceptor';
+import {RouterModule} from '@angular/router';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -38,8 +39,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CoreModule,
     SharedModule,
     HomeModule,
-    DetailModule,
+    GroupModule,
     AppRoutingModule,
+      RouterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
