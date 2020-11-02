@@ -88,7 +88,7 @@ export class ElectronService {
           request.setHeader('referer', 'https://www.facebook.com/');
           request.setHeader('accept-encoding', 'gzip, deflate, br');
           request.setHeader('accept-language', 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5');
-          request.setHeader('cookie', 'datr=tFlKX7OaeS616mYfmB08Hhf_; sb=ullKXz1t9QKYUrskK6fgfPz9; c_user=100046024845887; wd=1318x623; _fbp=fb.1.1598920724059.535470942; spin=r.1002600685_b.trunk_t.1598976575_s.1_v.2_; xs=46%3AzYEPy7jlImnM9A%3A2%3A1598708155%3A18239%3A6319%3A%3AAcW9rvCc0xQpN3sLGcj6FXLXQu5aZpnn6DXQWpRmuFw; fr=155JZ4JejkulIncRA.AWVfVuWqIEDNdwKqBV_1ePDM30E.BfSlm6.Lc.AAA.0.0.BfTt37.AWUl6U8w');
+          request.setHeader('cookie', 'sb=RsRlX4sxhNDUvcOJbvRnFDpn; datr=RsRlX10lUKKPZ-c9gZ2tsFHW; c_user=100046024845887; spin=r.1002917466_b.trunk_t.1604280210_s.1_v.2_; xs=31%3AXow7MSQ3zn8bMQ%3A2%3A1602512659%3A1776%3A6319%3A%3AAcWqMPF4dQBxLEGpP57XhsSO7-XibbmY_oagVBvIYXw; fr=0hHmzsv2prtkUl9r5.AWWVEs0g9f4wJ2xkrO8Ih-N5WY8.BffzPg.w-.AAA.0.0.Bfn1-S.AWUvD3jQMQM');
 
           request.write(body, 'utf-8');
           request.end();
