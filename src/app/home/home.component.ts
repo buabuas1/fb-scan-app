@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
     public body = new GetGroupBodyModel();
     public groups = '';
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
-    public fbToken = '';
     public FB_TOKEN_LC_KEY = 'FB_TOKEN_LC_KEY';
     public FB_COOKIE_LC_KEY = 'FB_COOKIE_LC_KEY';
     // public API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
@@ -46,6 +45,7 @@ export class HomeComponent implements OnInit {
         groupIds: ''
     };
     public header = new HeaderModel();
+    public fbBody: string;
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -56,7 +56,8 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.body.setBody('fb_dtsg', localStorage.getItem(this.FB_TOKEN_LC_KEY));
+        this.fbBody = localStorage.getItem(this.FB_TOKEN_LC_KEY) || '';
+        this.body = new GetGroupBodyModel(localStorage.getItem(this.FB_TOKEN_LC_KEY));
         this.header = JSON.parse(localStorage.getItem(this.FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(this.FB_COOKIE_LC_KEY)) : new HeaderModel();
     }
 
@@ -119,8 +120,8 @@ export class HomeComponent implements OnInit {
     }
 
     public saveFbToken() {
-        localStorage.setItem(this.FB_TOKEN_LC_KEY, this.fbToken);
-        this.body.setBody('fb_dtsg', this.fbToken);
+        localStorage.setItem(this.FB_TOKEN_LC_KEY, this.fbBody);
+        this.body = new GetGroupBodyModel(this.fbBody);
     }
 
     public saveApiToken() {

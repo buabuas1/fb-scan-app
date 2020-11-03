@@ -51,34 +51,13 @@ export class GetGroupBodyModel {
     server_timestamps: string;
     doc_id: string;
 
-    constructor(src?: any) {
-        if (!src) {
-            src = body;
-        }
-        this.av = src.av
-        this.__user = src.__user
-        this.__a = src.__a
-        this.__dyn = src.__dyn
-        this.__csr = src.__csr
-        this.__req = src.__req
-        this.__beoa = src.__beoa
-        this.__pc = src.__pc
-        this.dpr = src.dpr
-        this.__ccg = src.__ccg
-        this.__rev = src.__rev
-        this.__s = src.__s
-        this.__hsi = src.__hsi
-        this.__comet_req = src.__comet_req
-        this.fb_dtsg = src.fb_dtsg
-        this.jazoest = src.jazoest
-        this.__spin_r = src.__spin_r
-        this.__spin_b = src.__spin_b
-        this.__spin_t = src.__spin_t
-        this.fb_api_caller_class = src.fb_api_caller_class
-        this.fb_api_req_friendly_name = src.fb_api_req_friendly_name
-        this.variables = src.variables
-        this.server_timestamps = src.server_timestamps
-        this.doc_id = src.doc_id
+    constructor(body: string = '') {
+        const fields = body.split('\n');
+        fields.forEach(r => {
+            const f = r.substr(0, r.indexOf(':'));
+            const v = r.substr(r.indexOf(':') + 1);
+            this[f] = v;
+        })
     }
     public setBody(field: string, value: string) {
         this[field] = value;
