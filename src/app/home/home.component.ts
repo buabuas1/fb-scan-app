@@ -7,7 +7,7 @@ import {ModalService} from '../core/services/modal/modal.service';
 import {BodyDetailFormComponent} from './component/body-detail-form/body-detail-form.component';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
-import {API_TOKEN_LC_KEY, BdsTypeArray} from '../common/constant';
+import {API_TOKEN_LC_KEY, BdsTypeArray, FB_COOKIE_LC_KEY} from '../common/constant';
 import {IBDSModel} from '../common/model/facebook/IBDS.model';
 import * as R from 'ramda';
 import {moment} from 'ngx-bootstrap/chronos/test/chain';
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     public groups = '';
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
     public FB_TOKEN_LC_KEY = 'FB_TOKEN_LC_KEY';
-    public FB_COOKIE_LC_KEY = 'FB_COOKIE_LC_KEY';
+    public FB_COOKIE_LC_KEY = FB_COOKIE_LC_KEY;
     // public API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
     public user = 'sonnvptit2402@gmail.com';
     public password = '123';
