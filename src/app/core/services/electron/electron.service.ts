@@ -6,6 +6,7 @@ import { ipcRenderer, webFrame, remote } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import {Observable} from 'rxjs';
+import {HeaderModel} from '../../../common/model/header.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class ElectronService {
     }
   }
 
-  public callApi(body: string): Promise<string> {
+  public callApi(body: string, header: HeaderModel): Promise<string> {
       return new Promise((resolve, reject) => {
           const net = this.remote.net;
           let data = '';
@@ -88,7 +89,7 @@ export class ElectronService {
           request.setHeader('referer', 'https://www.facebook.com/');
           request.setHeader('accept-encoding', 'gzip, deflate, br');
           request.setHeader('accept-language', 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5');
-          request.setHeader('cookie', 'sb=RsRlX4sxhNDUvcOJbvRnFDpn; datr=RsRlX10lUKKPZ-c9gZ2tsFHW; c_user=100046024845887; spin=r.1002917466_b.trunk_t.1604280210_s.1_v.2_; xs=31%3AXow7MSQ3zn8bMQ%3A2%3A1602512659%3A1776%3A6319%3A%3AAcWqMPF4dQBxLEGpP57XhsSO7-XibbmY_oagVBvIYXw; fr=0hHmzsv2prtkUl9r5.AWWVEs0g9f4wJ2xkrO8Ih-N5WY8.BffzPg.w-.AAA.0.0.Bfn1-S.AWUvD3jQMQM');
+          request.setHeader('cookie', header.cookie);
 
           request.write(body, 'utf-8');
           request.end();

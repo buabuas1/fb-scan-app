@@ -14,6 +14,7 @@ import {moment} from 'ngx-bootstrap/chronos/test/chain';
 import {getMessageFromError, removeSpace} from '../common/util';
 import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
 import {BdsMongoModel} from '../common/model/facebook/bds-mongo.model';
+import {HeaderModel} from '../common/model/header.model';
 
 @Component({
     selector: 'app-home',
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
     public fbToken = '';
     public FB_TOKEN_LC_KEY = 'FB_TOKEN_LC_KEY';
+    public FB_COOKIE_LC_KEY = 'FB_COOKIE_LC_KEY';
     // public API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
     public user = 'sonnvptit2402@gmail.com';
     public password = '123';
@@ -43,7 +45,7 @@ export class HomeComponent implements OnInit {
         searchText: '',
         groupIds: ''
     };
-    @ViewChild(RouterOutlet) outlet: RouterOutlet;
+    public header = new HeaderModel();
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
@@ -54,11 +56,8 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.router.events.subscribe(e => {
-            if (e instanceof ActivationStart && e.snapshot.outlet === "/")
-                this.outlet.deactivate();
-        });
         this.body.setBody('fb_dtsg', localStorage.getItem(this.FB_TOKEN_LC_KEY));
+        this.header = JSON.parse(localStorage.getItem(this.FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(this.FB_COOKIE_LC_KEY)) : new HeaderModel();
     }
 
     onOpenSetting() {
@@ -95,7 +94,7 @@ export class HomeComponent implements OnInit {
         this.body.numberOfPost(this.numberOfPost);
         let rs = ''
         try {
-            rs = await this.electronService.callApi(queryString.stringify(this.body));
+            rs = await this.electronService.callApi(queryString.stringify(this.body), this.header);
             this.loggerService.success(`get success: ${groupId}`);
             let data = this.fbGroupService.processScanData(rs.toString()) as IBDSModel[];
             data = data.filter(r =>
@@ -140,5 +139,9 @@ export class HomeComponent implements OnInit {
 
     public onBdsTypeChange($event: any[]) {
 
+    }
+
+    public saveFbCookie() {
+        localStorage.setItem(this.FB_COOKIE_LC_KEY, JSON.stringify(this.header));
     }
 }
