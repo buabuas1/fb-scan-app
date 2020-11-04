@@ -55,7 +55,7 @@ export class GetGroupBodyModel {
         const fields = body.split('\n');
         fields.forEach(r => {
             const f = r.substr(0, r.indexOf(':'));
-            const v = r.substr(r.indexOf(':') + 1);
+            const v = r.substr(r.indexOf(':') + 2);
             this[f] = v;
         })
     }
