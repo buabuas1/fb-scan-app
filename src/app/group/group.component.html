@@ -14,6 +14,16 @@
                 <button class="btn btn-sm btn-success" (click)="callApi()">Fetch</button>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="m2">
+                <label><b>DS ID</b></label>
+                <textarea type="text" [(ngModel)]="listIdsStr"></textarea>
+                <button class="btn btn-sm btn-success" (click)="saveListId()">Save</button>
+            </div>
+            <div class="m2">
+                <button class="btn btn-sm btn-success" (click)="callApi()">Invite</button>
+            </div>
+        </div>
     </div>
   <a routerLink="/">{{ 'PAGES.DETAIL.BACK_TO_HOME' | translate }}</a>
 </div>

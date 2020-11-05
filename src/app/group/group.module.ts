@@ -5,13 +5,20 @@ import {GroupRoutingModule} from './group-routing.module';
 
 import {GroupComponent} from './group.component';
 import {SharedModule} from '../shared/shared.module';
-import {ElectronService} from '../core/services';
+import {ElectronService, ModalService} from '../core/services';
+import {LoggerService} from '../core/services/logger/logger.service';
+import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
+import {FbGroupService} from '../core/services/fb-group/fb-group.service';
 
 @NgModule({
     declarations: [GroupComponent],
     imports: [CommonModule, SharedModule, GroupRoutingModule],
     providers: [
-        ElectronService
+        ElectronService,
+        ModalService,
+        LoggerService,
+        FbGroupService,
+        BdsContentApiService
     ]
 })
 export class GroupModule {
