@@ -7,7 +7,7 @@ import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import {Observable} from 'rxjs';
 import {HeaderModel} from '../../../common/model/header.model';
-
+import * as qs from 'query-string';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,7 +37,7 @@ export class ElectronService {
     }
   }
 
-  public callApi(body: string, header: HeaderModel): Promise<string> {
+  public callApi(body: object, header: HeaderModel): Promise<string> {
       return new Promise((resolve, reject) => {
           const net = this.remote.net;
           let data = '';
@@ -91,7 +91,10 @@ export class ElectronService {
           request.setHeader('accept-language', 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5');
           request.setHeader('cookie', header.cookie);
 
-          request.write(body, 'utf-8');
+          const postData = qs.stringify(body);
+
+          request.write(postData, 'utf-8');
+
           request.end();
       })
   }

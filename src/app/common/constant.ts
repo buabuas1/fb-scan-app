@@ -8,6 +8,7 @@ export const BdsType = {
     CHO_THUE_NHA: 'CHO_THUE_NHA'
 };
 export const FB_COOKIE_LC_KEY = 'FB_COOKIE_LC_KEY';
+export const FB_INVITE_LC_KEY = 'FB_INVITE_LC_KEY';
 export const BdsTypeArray = [
     {key: 'CHO_THUE_PHONG', value: 'Cho thuê phòng'},
     {key: 'TIM_PHONG', value: 'Tìm phòng'},

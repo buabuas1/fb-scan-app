@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
         this.body.numberOfPost(this.numberOfPost);
         let rs = ''
         try {
-            rs = await this.electronService.callApi(queryString.stringify(this.body), this.header);
+            rs = await this.electronService.callApi(this.body, this.header);
             this.loggerService.success(`get success: ${groupId}`);
             let data = this.fbGroupService.processScanData(rs.toString()) as IBDSModel[];
             data = data.filter(r =>

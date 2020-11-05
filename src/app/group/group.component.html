@@ -1,7 +1,7 @@
 <!--<app-header></app-header>-->
 <div class="container">
   <h1 class="title">
-    {{ 'Phát triển nhom' | translate }}
+    {{ 'Phát triển nhóm' | translate }}
   </h1>
     <div class="row">
         <div class="col-md-4">
@@ -21,9 +21,14 @@
                 <button class="btn btn-sm btn-success" (click)="saveListId()">Save</button>
             </div>
             <div class="m2">
-                <button class="btn btn-sm btn-success" (click)="callApi()">Invite</button>
+                <input type="text" [(ngModel)]="groupId">
+                <button class="btn btn-sm btn-success" (click)="callInviteApi()">Invite</button>
+            </div>
+            <div class="m2">
+                <label><b>INVITE BODY</b></label>
+                <textarea type="text" [(ngModel)]="inviteBodyStr"></textarea>
+                <button class="btn btn-sm btn-success" (click)="saveInviteBody()">Save</button>
             </div>
         </div>
     </div>
-  <a routerLink="/">{{ 'PAGES.DETAIL.BACK_TO_HOME' | translate }}</a>
 </div>

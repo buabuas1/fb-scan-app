@@ -47,4 +47,9 @@ export class InviteToGroupBodyModel {
         body.input.user_ids = [userId];
         this.variables = JSON.stringify(body);
     }
+
+    public getGroupId() {
+        const body = JSON.parse(this.variables);
+        return body && body.input && body.input.group_id || '';
+    }
 }
