@@ -27,11 +27,11 @@ export class GroupComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.fbBody = localStorage.getItem(this.LC_BODY_KEY);
-        this.body = new GetFriendRecentlyModel(localStorage.getItem(this.LC_BODY_KEY));
+        this.fbBody = localStorage.getItem(this.LC_BODY_KEY) || '';
+        this.body = new GetFriendRecentlyModel(this.fbBody);
         this.header = JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) : new HeaderModel();
-        this.inviteBodyStr = localStorage.getItem(FB_INVITE_LC_KEY);
-        this.inviteBody = new InviteToGroupBodyModel(localStorage.getItem(FB_INVITE_LC_KEY));
+        this.inviteBodyStr = localStorage.getItem(FB_INVITE_LC_KEY) || '';
+        this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
         this.groupId = this.inviteBody.getGroupId();
     }
 
@@ -68,14 +68,19 @@ export class GroupComponent implements OnInit {
                 this.inviteBody.setUserId(i);
                 try {
                     const rs = await this.electronService.callApi(this.inviteBody, this.header);
-                    this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
+                    if (rs) {
+                        this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
+                    } else {
+                        this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
+                    }
                 } catch (ex) {
                     console.log(ex);
                     this.loggerService.error(ex);
                 }
-
             }
         }
+        this.loggerService.warning(`Đã xong!`);
+        console.log(`Đã xong!`);
     }
 
     public saveInviteBody() {
