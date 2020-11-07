@@ -48,6 +48,7 @@ export class GroupComponent implements OnInit {
             this.listIds = ids;
             this.listIdsStr = this.listIds.join(',');
             this.loggerService.success(`Get bạn gần đây thành công: ${ids.length}`);
+            this.loggerService.success(`Tên: ${data.map(u => u.node.title.text).join(', ')}`);
         } catch (e) {
             this.loggerService.error(JSON.stringify(e));
             console.log(e);
