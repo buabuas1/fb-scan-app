@@ -1,11 +1,11 @@
 <!--<app-header></app-header>-->
 <div class="container">
-  <h1 class="title">
+  <h1 class="bg-info">
     {{ 'Phát triển nhóm' | translate }}
   </h1>
     <div class="row">
         <div class="col-md-4">
-            <label class="title">Lấy danh sách bạn mới thêm</label>
+            <label class="text-info bg-primary">Lấy danh sách bạn mới thêm</label>
             <div class="m2">
                 <div><b>FB_BODY</b></div>
                 <textarea type="text" [(ngModel)]="fbBody"></textarea>
@@ -14,12 +14,13 @@
             <div class="m2">
                 <button class="btn btn-sm btn-success" (click)="callApi()">Fetch</button>
             </div>
+            <app-get-group-member></app-get-group-member>
         </div>
         <div class="col-md-4">
-            <label class="title">Mời vào nhóm</label>
+            <label class="text-info bg-primary">Mời vào nhóm</label>
             <div class="m2">
                 <div><b>DS ID</b></div>
-                <textarea type="text" [(ngModel)]="listIdsStr"></textarea>
+                <input type="text" [(ngModel)]="listIdsStr"/>
                 <button class="btn btn-sm btn-success" (click)="saveListId()">Save</button>
             </div>
             <div class="m2">

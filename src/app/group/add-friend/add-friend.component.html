@@ -1,8 +1,11 @@
-<label class="title">Thêm bạn</label>
+<label class="text-white bg-primary">Thêm bạn</label>
 <div class="m2">
     <div><b>DS ID</b></div>
-    <textarea type="text" [(ngModel)]="listIdsStr"></textarea>
+    <label>
+        <input type="text" [(ngModel)]="listIdsStr"/>
+    </label>
     <button class="btn btn-sm btn-success" (click)="onAddFriend()">Add Friend</button>
+    <button class="btn btn-sm btn-danger" (click)="onStop()">Stop</button>
 </div>
 <div class="m2">
     <div><b>INVITE FBODY</b></div>

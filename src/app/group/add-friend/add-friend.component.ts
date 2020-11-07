@@ -16,6 +16,7 @@ export class AddFriendComponent implements OnInit {
     public inviteBodyStr: any;
     public inviteBody: InviteFriendBodyModel;
     public header: HeaderModel;
+    public cancelToken = false;
 
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService) {
@@ -28,8 +29,12 @@ export class AddFriendComponent implements OnInit {
     }
 
     public async onAddFriend() {
+        this.cancelToken = false;
         const listIds = this.listIdsStr.replace(/"/g, '').split(',');
         for (const i of listIds) {
+            if (this.cancelToken) {
+                return ;
+            }
             this.inviteBody.setUserId(i);
             try {
                 const rs = await this.electronService.callApi(this.inviteBody, this.header);
@@ -43,12 +48,16 @@ export class AddFriendComponent implements OnInit {
                 this.loggerService.error(ex);
             }
         }
-        this.loggerService.warning(`Đã xong!`);
-        console.log(`Đã xong!`);
+        this.loggerService.warning(`Đã xong ${listIds.length}!`);
+        console.log(`Đã xong! ${listIds.length}`);
     }
 
     public saveInviteBody() {
         this.inviteBody = new InviteFriendBodyModel(this.inviteBodyStr);
         localStorage.setItem(FB_FRIEND_ADD_LC_KEY, this.inviteBodyStr);
+    }
+
+    public onStop() {
+        this.cancelToken = true;
     }
 }

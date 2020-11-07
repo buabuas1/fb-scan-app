@@ -10,9 +10,10 @@ import {LoggerService} from '../core/services/logger/logger.service';
 import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
 import { AddFriendComponent } from './add-friend/add-friend.component';
+import { GetGroupMemberComponent } from './get-group-member/get-group-member.component';
 
 @NgModule({
-    declarations: [GroupComponent, AddFriendComponent],
+    declarations: [GroupComponent, AddFriendComponent, GetGroupMemberComponent],
     imports: [CommonModule, SharedModule, GroupRoutingModule],
     providers: [
         ElectronService,

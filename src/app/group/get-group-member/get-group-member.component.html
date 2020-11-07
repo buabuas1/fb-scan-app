@@ -1,0 +1,14 @@
+<label class="text-white bg-primary">Lấy thành viên nhóm</label>
+<div class="m2">
+    <div><b>DS ID</b></div>
+    <input type="text" [(ngModel)]="listIdsStr"/>
+    <div><b>Số lượng</b></div>
+    <input type="number" [(ngModel)]="numberOfMem"/>
+    <button class="btn btn-sm btn-success" (click)="onGetMember()">Get Mem</button>
+    <input type="text" [(ngModel)]="uids"/>
+</div>
+<div class="m2">
+    <div><b>GET MEM FB BODY</b></div>
+    <textarea type="text" [(ngModel)]="inviteBodyStr"></textarea>
+    <button class="btn btn-sm btn-success" (click)="saveInviteBody()">Save</button>
+</div>
