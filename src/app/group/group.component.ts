@@ -19,7 +19,7 @@ export class GroupComponent implements OnInit {
     public LC_BODY_KEY = 'FRIEND_RC_BODY'
     public listIdsStr = '';
     public listIds = [];
-    public groupId = '';
+    public groupId = '1854370624678388,3216226258488385,4052747384740056,634484607205600';
     public inviteBodyStr = '';
     public inviteBody = new InviteToGroupBodyModel();
     constructor(private electronService: ElectronService,
@@ -32,7 +32,6 @@ export class GroupComponent implements OnInit {
         this.header = JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) : new HeaderModel();
         this.inviteBodyStr = localStorage.getItem(FB_INVITE_LC_KEY) || '';
         this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
-        this.groupId = this.inviteBody.getGroupId();
     }
 
     public saveFbToken() {
