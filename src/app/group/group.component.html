@@ -5,8 +5,9 @@
   </h1>
     <div class="row">
         <div class="col-md-4">
+            <label class="title">Lấy danh sách bạn mới thêm</label>
             <div class="m2">
-                <label><b>FB_BODY</b></label>
+                <div><b>FB_BODY</b></div>
                 <textarea type="text" [(ngModel)]="fbBody"></textarea>
                 <button class="btn btn-sm btn-success" (click)="saveFbToken()">Save</button>
             </div>
@@ -15,20 +16,25 @@
             </div>
         </div>
         <div class="col-md-4">
+            <label class="title">Mời vào nhóm</label>
             <div class="m2">
-                <label><b>DS ID</b></label>
+                <div><b>DS ID</b></div>
                 <textarea type="text" [(ngModel)]="listIdsStr"></textarea>
                 <button class="btn btn-sm btn-success" (click)="saveListId()">Save</button>
             </div>
             <div class="m2">
+                <div>Danh sách nhóm</div>
                 <input type="text" [(ngModel)]="groupId">
                 <button class="btn btn-sm btn-success" (click)="callInviteApi()">Invite</button>
             </div>
             <div class="m2">
-                <label><b>INVITE BODY</b></label>
+                <div><b>INVITE BODY</b></div>
                 <textarea type="text" [(ngModel)]="inviteBodyStr"></textarea>
                 <button class="btn btn-sm btn-success" (click)="saveInviteBody()">Save</button>
             </div>
+        </div>
+        <div class="col-md-4">
+            <app-add-friend></app-add-friend>
         </div>
     </div>
 </div>

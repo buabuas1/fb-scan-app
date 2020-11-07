@@ -68,7 +68,7 @@ export class GroupComponent implements OnInit {
                 this.inviteBody.setUserId(i);
                 try {
                     const rs = await this.electronService.callApi(this.inviteBody, this.header);
-                    if (rs) {
+                    if (rs && rs.indexOf(g) !== -1) {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
                     } else {
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
