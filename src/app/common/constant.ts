@@ -11,6 +11,7 @@ export const FB_COOKIE_LC_KEY = 'FB_COOKIE_LC_KEY';
 export const FB_INVITE_LC_KEY = 'FB_INVITE_LC_KEY';
 export const FB_FRIEND_ADD_LC_KEY = 'FB_FRIEND_ADD_LC_KEY';
 export const FB_GET_MEM_LC_KEY = 'FB_GET_MEM_LC_KEY';
+export const FB_GROUP_ID_LC_KEY = 'FB_GROUP_ID_LC_KEY';
 export const BdsTypeArray = [
     {key: 'CHO_THUE_PHONG', value: 'Cho thuê phòng'},
     {key: 'TIM_PHONG', value: 'Tìm phòng'},
