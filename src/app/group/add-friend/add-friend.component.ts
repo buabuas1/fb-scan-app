@@ -5,6 +5,8 @@ import {InviteToGroupBodyModel} from '../../common/model/invite-to-group-body.mo
 import {ElectronService} from '../../core/services';
 import {LoggerService} from '../../core/services/logger/logger.service';
 import {HeaderModel} from '../../common/model/header.model';
+import {UserFacebookTokenService} from '../../core/services/user-facebook-token.service';
+import {UserFacebookToken} from '../../common/model/user-facebook-token';
 
 @Component({
     selector: 'app-add-friend',
@@ -17,15 +19,18 @@ export class AddFriendComponent implements OnInit {
     public inviteBody: InviteFriendBodyModel;
     public header: HeaderModel;
     public cancelToken = false;
+    public userToken: UserFacebookToken;
 
     constructor(private electronService: ElectronService,
-                private loggerService: LoggerService) {
+                private loggerService: LoggerService,
+                private userFacebookTokenService: UserFacebookTokenService) {
     }
 
     ngOnInit(): void {
-        this.inviteBodyStr = localStorage.getItem(FB_FRIEND_ADD_LC_KEY) || '';
+        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
+        this.inviteBodyStr = this.userToken.addFriendBody;
         this.inviteBody = new InviteFriendBodyModel(this.inviteBodyStr);
-        this.header = JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) : new HeaderModel();
+        this.header = new HeaderModel(this.userToken);
     }
 
     public async onAddFriend() {

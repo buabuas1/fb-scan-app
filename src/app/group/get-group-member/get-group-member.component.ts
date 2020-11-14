@@ -5,6 +5,8 @@ import {ElectronService} from '../../core/services';
 import {LoggerService} from '../../core/services/logger/logger.service';
 import {FB_COOKIE_LC_KEY, FB_GET_MEM_LC_KEY} from '../../common/constant';
 import {GetMemGroupBodyModel} from '../../common/model/get-mem-group-body.model';
+import {UserFacebookTokenService} from '../../core/services/user-facebook-token.service';
+import {UserFacebookToken} from '../../common/model/user-facebook-token';
 
 @Component({
     selector: 'app-get-group-member',
@@ -19,15 +21,18 @@ export class GetGroupMemberComponent implements OnInit {
     public header: HeaderModel;
     public uids: any;
     public numberOfMem = 100;
+    public userToken: UserFacebookToken;
 
     constructor(private electronService: ElectronService,
-                private loggerService: LoggerService) {
+                private loggerService: LoggerService,
+                private userFacebookTokenService: UserFacebookTokenService) {
     }
 
     ngOnInit(): void {
-        this.inviteBodyStr = localStorage.getItem(FB_GET_MEM_LC_KEY) || '';
+        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
+        this.inviteBodyStr = this.userToken.getMemberOfGroupBody;
         this.inviteBody = new GetMemGroupBodyModel(this.inviteBodyStr);
-        this.header = JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) : new HeaderModel();
+        this.header = new HeaderModel(this.userToken);
     }
 
     public async onGetMember() {

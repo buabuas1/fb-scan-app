@@ -6,6 +6,8 @@ import {HeaderModel} from '../common/model/header.model';
 import {FB_COOKIE_LC_KEY, FB_GROUP_ID_LC_KEY, FB_INVITE_LC_KEY, LC_BODY_KEY} from '../common/constant';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {InviteToGroupBodyModel} from '../common/model/invite-to-group-body.model';
+import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
+import {UserFacebookToken} from '../common/model/user-facebook-token';
 
 @Component({
     selector: 'app-detail',
@@ -24,15 +26,18 @@ export class GroupComponent implements OnInit {
     public inviteBodyStr = '';
     public inviteBody = new InviteToGroupBodyModel();
     public isShowSetting = false;
+    public userToken: UserFacebookToken;
     constructor(private electronService: ElectronService,
-                private loggerService: LoggerService) {
+                private loggerService: LoggerService,
+                private userFacebookTokenService: UserFacebookTokenService) {
     }
 
     ngOnInit(): void {
-        this.fbBody = localStorage.getItem(this.LC_BODY_KEY) || '';
+        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
+        this.fbBody = this.userToken.getRecentlyFriendBody;
         this.body = new GetFriendRecentlyModel(this.fbBody);
-        this.header = JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(FB_COOKIE_LC_KEY)) : new HeaderModel();
-        this.inviteBodyStr = localStorage.getItem(FB_INVITE_LC_KEY) || '';
+        this.header = new HeaderModel(this.userToken);
+        this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
         this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
         this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
     }
