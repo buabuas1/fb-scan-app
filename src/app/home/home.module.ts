@@ -11,6 +11,7 @@ import {ModalService} from '../core/services/modal/modal.service';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
 import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
+import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 
 @NgModule({
     declarations: [HomeComponent, BodyDetailFormComponent],
@@ -19,7 +20,8 @@ import {BdsContentApiService} from '../core/services/bds-content-api/bds-content
         ModalService,
         LoggerService,
         FbGroupService,
-        BdsContentApiService
+        BdsContentApiService,
+        UserFacebookTokenService
     ]
 })
 export class HomeModule {

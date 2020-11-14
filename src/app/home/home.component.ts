@@ -15,6 +15,8 @@ import {getMessageFromError, removeSpace} from '../common/util';
 import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
 import {BdsMongoModel} from '../common/model/facebook/bds-mongo.model';
 import {HeaderModel} from '../common/model/header.model';
+import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
+import {UserFacebookToken} from '../common/model/user-facebook-token';
 
 @Component({
     selector: 'app-home',
@@ -46,19 +48,27 @@ export class HomeComponent implements OnInit {
     };
     public header = new HeaderModel();
     public fbBody: string;
+    public userToken: UserFacebookToken;
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
                 private loggerService: LoggerService,
                 private fbGroupService: FbGroupService,
-                private bdsContentApiService: BdsContentApiService
+                private bdsContentApiService: BdsContentApiService,
+                private userFacebookTokenService: UserFacebookTokenService
     ) {
     }
 
     ngOnInit(): void {
-        this.fbBody = localStorage.getItem(this.FB_TOKEN_LC_KEY) || '';
-        this.body = new GetGroupBodyModel(localStorage.getItem(this.FB_TOKEN_LC_KEY));
-        this.header = JSON.parse(localStorage.getItem(this.FB_COOKIE_LC_KEY)) ? JSON.parse(localStorage.getItem(this.FB_COOKIE_LC_KEY)) : new HeaderModel();
+        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
+        this.fbBody = this.userToken.getGroupFeedBody;
+        this.body = new GetGroupBodyModel(this.fbBody);
+        this.header = new HeaderModel(this.userToken);
+        this.userFacebookTokenService.getSettingToken()
+            .subscribe(rs => {
+                localStorage.setItem(this.userFacebookTokenService.TOKEN_KEY, JSON.stringify(rs));
+                this.loggerService.success('Tải về Token thành công!');
+            })
     }
 
     onOpenSetting() {

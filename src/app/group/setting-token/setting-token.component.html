@@ -1,0 +1,47 @@
+<div>
+    <div>
+        <label>Tài khoản</label>
+        <kendo-dropdownlist [data]="userTokens" [(ngModel)]="currentToken" [valueField]="'_id'" [textField]="'facebookName'" (ngModelChange)="onUserChange($event)">
+        </kendo-dropdownlist>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div>
+                <label>Token</label>
+                <input [(ngModel)]="currentToken.token">
+            </div>
+            <div>
+                <label>Cookie</label>
+                <input [(ngModel)]="currentToken.cookie">
+            </div>
+            <div>
+                <label>Uuid</label>
+                <input [(ngModel)]="currentToken.facebookUuid">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div>
+                <label class="text-info bg-primary">Get Group Feed Body</label>
+                <textarea [(ngModel)]="currentToken.getGroupFeedBody" class="w100"></textarea>
+            </div>
+            <div>
+                <label class="text-info bg-primary">Get Recently Friend</label>
+                <textarea [(ngModel)]="currentToken.getRecentlyFriendBody" class="w100"></textarea>
+            </div>
+            <div>
+                <label class="text-info bg-primary">Get Member of Group</label>
+                <textarea [(ngModel)]="currentToken.getMemberOfGroupBody" class="w100"></textarea>
+            </div>
+            <div>
+                <label class="text-info bg-primary">Get Invite Friend To Group</label>
+                <textarea [(ngModel)]="currentToken.inviteFriendToGroupBody" class="w100"></textarea>
+            </div>
+            <div>
+                <label class="text-info bg-primary">Add Friend</label>
+                <textarea [(ngModel)]="currentToken.addFriendBody" class="w100"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-success btn-sm" (click)="saveData()">Save</button>
+</div>

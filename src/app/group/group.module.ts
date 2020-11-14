@@ -11,16 +11,19 @@ import {BdsContentApiService} from '../core/services/bds-content-api/bds-content
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
 import { AddFriendComponent } from './add-friend/add-friend.component';
 import { GetGroupMemberComponent } from './get-group-member/get-group-member.component';
+import { SettingTokenComponent } from './setting-token/setting-token.component';
+import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 
 @NgModule({
-    declarations: [GroupComponent, AddFriendComponent, GetGroupMemberComponent],
+    declarations: [GroupComponent, AddFriendComponent, GetGroupMemberComponent, SettingTokenComponent],
     imports: [CommonModule, SharedModule, GroupRoutingModule],
     providers: [
         ElectronService,
         ModalService,
         LoggerService,
         FbGroupService,
-        BdsContentApiService
+        BdsContentApiService,
+        UserFacebookTokenService
     ]
 })
 export class GroupModule {

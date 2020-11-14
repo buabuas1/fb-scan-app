@@ -23,6 +23,7 @@ export class GroupComponent implements OnInit {
     public cancelToken = false;
     public inviteBodyStr = '';
     public inviteBody = new InviteToGroupBodyModel();
+    public isShowSetting = false;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService) {
     }
@@ -97,5 +98,9 @@ export class GroupComponent implements OnInit {
 
     public Stop() {
         this.cancelToken = true;
+    }
+
+    public changeSetting() {
+        this.isShowSetting = !this.isShowSetting;
     }
 }
