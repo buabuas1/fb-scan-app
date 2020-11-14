@@ -1,5 +1,11 @@
 <label class="text-white bg-primary">Thêm bạn</label>
 <div class="m2">
+    <div><b>Thời gian giữa 2 lần gọi (s)</b></div>
+    <label>
+        <input type="number" [(ngModel)]="spaceTime"/>
+    </label>
+</div>
+<div class="m2">
     <div><b>DS ID</b></div>
     <label>
         <input type="text" [(ngModel)]="listIdsStr"/>
@@ -11,4 +17,7 @@
     <div><b>INVITE FBODY</b></div>
     <textarea type="text" [(ngModel)]="inviteBodyStr"></textarea>
     <button class="btn btn-sm btn-success" (click)="saveInviteBody()">Save</button>
+</div>
+<div class="m2">
+    <textarea [(ngModel)]="logContent"></textarea>
 </div>

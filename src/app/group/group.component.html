@@ -20,6 +20,10 @@
         <div class="col-md-4">
             <label class="text-info bg-primary">Mời vào nhóm</label>
             <div class="m2">
+                <div>Thời gian giữa 2 lần gọi api (s)</div>
+                <input type="number" [(ngModel)]="timeSpace"/>
+            </div>
+            <div class="m2">
                 <div><b>DS ID</b></div>
                 <input type="text" [(ngModel)]="listIdsStr"/>
                 <button class="btn btn-sm btn-success" (click)="saveListId()">Save</button>
@@ -34,6 +38,10 @@
                 <div><b>INVITE BODY</b></div>
                 <textarea type="text" [(ngModel)]="inviteBodyStr"></textarea>
                 <button class="btn btn-sm btn-success" (click)="saveInviteBody()">Save</button>
+            </div>
+            <div class="m2">
+                <div>Log</div>
+                <textarea type="text" [(ngModel)]="logContent"></textarea>
             </div>
         </div>
         <div class="col-md-4">

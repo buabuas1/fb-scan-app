@@ -8,6 +8,7 @@ import {LoggerService} from '../core/services/logger/logger.service';
 import {InviteToGroupBodyModel} from '../common/model/invite-to-group-body.model';
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../common/model/user-facebook-token';
+import {interval} from 'rxjs';
 
 @Component({
     selector: 'app-detail',
@@ -27,6 +28,8 @@ export class GroupComponent implements OnInit {
     public inviteBody = new InviteToGroupBodyModel();
     public isShowSetting = false;
     public userToken: UserFacebookToken;
+    public timeSpace = 1;
+    public logContent = '';
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -74,12 +77,14 @@ export class GroupComponent implements OnInit {
         const lsGroupId = this.groupId.split(',');
         localStorage.setItem(FB_GROUP_ID_LC_KEY, this.groupId);
         this.cancelToken = false;
-        for (const g of lsGroupId) {
-            this.inviteBody.setGroupId(g);
-            for (const i of this.listIds) {
+        const a = interval(1000 * this.timeSpace).take(lsGroupId.length * this.listIds.length)
+            .subscribe(async rs => {
+                const g = lsGroupId[Math.floor(rs / this.listIds.length)];
+                const i = this.listIds[rs % this.listIds.length];
                 if (this.cancelToken) {
-                    return ;
+                    a.unsubscribe();
                 }
+                this.inviteBody.setGroupId(g);
                 this.inviteBody.setUserId(i);
                 try {
                     const rs = await this.electronService.callApi(this.inviteBody, this.header);
@@ -92,10 +97,12 @@ export class GroupComponent implements OnInit {
                     console.log(ex);
                     this.loggerService.error(ex);
                 }
-            }
-        }
-        this.loggerService.warning(`Đã xong!`);
-        console.log(`Đã xong!`);
+                if (rs === lsGroupId.length * this.listIds.length - 1) {
+                    this.loggerService.warning(`Đã xong!`);
+                    console.log(`Đã xong!`);
+                    this.logContent += `${new Date().toLocaleTimeString()} Đã xong!`;
+                }
+            })
     }
 
     public saveInviteBody() {
