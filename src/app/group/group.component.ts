@@ -34,12 +34,14 @@ export class GroupComponent implements OnInit {
 
     ngOnInit(): void {
         this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
-        this.fbBody = this.userToken.getRecentlyFriendBody;
-        this.body = new GetFriendRecentlyModel(this.fbBody);
-        this.header = new HeaderModel(this.userToken);
-        this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
-        this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
-        this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
+        if (this.userToken) {
+            this.fbBody = this.userToken.getRecentlyFriendBody;
+            this.body = new GetFriendRecentlyModel(this.fbBody);
+            this.header = new HeaderModel(this.userToken);
+            this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
+            this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
+            this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
+        }
     }
 
     public saveFbToken() {
@@ -107,5 +109,6 @@ export class GroupComponent implements OnInit {
 
     public changeSetting() {
         this.isShowSetting = !this.isShowSetting;
+        this.ngOnInit();
     }
 }

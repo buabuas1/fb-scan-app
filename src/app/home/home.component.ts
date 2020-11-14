@@ -60,14 +60,16 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
-        this.fbBody = this.userToken.getGroupFeedBody;
-        this.body = new GetGroupBodyModel(this.fbBody);
-        this.header = new HeaderModel(this.userToken);
         this.userFacebookTokenService.getSettingToken()
             .subscribe(rs => {
                 localStorage.setItem(this.userFacebookTokenService.TOKEN_KEY, JSON.stringify(rs));
                 this.loggerService.success('Tải về Token thành công!');
+                this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
+                if (this.userToken){
+                    this.fbBody = this.userToken.getGroupFeedBody;
+                    this.body = new GetGroupBodyModel(this.fbBody);
+                    this.header = new HeaderModel(this.userToken);
+                }
             })
     }
 

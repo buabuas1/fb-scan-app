@@ -20,6 +20,7 @@ export class SettingTokenComponent implements OnInit {
         this.currentToken = JSON.parse(localStorage.getItem(this.userFacebookTokenService.CURRENT_TOKEN_KEY)) as UserFacebookToken;
         if (!this.currentToken && this.userTokens.length > 0) {
             this.currentToken = this.userTokens[0];
+            this.onUserChange(null);
         }
     }
 
