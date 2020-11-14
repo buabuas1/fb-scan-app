@@ -12,6 +12,8 @@ export const FB_INVITE_LC_KEY = 'FB_INVITE_LC_KEY';
 export const FB_FRIEND_ADD_LC_KEY = 'FB_FRIEND_ADD_LC_KEY';
 export const FB_GET_MEM_LC_KEY = 'FB_GET_MEM_LC_KEY';
 export const FB_GROUP_ID_LC_KEY = 'FB_GROUP_ID_LC_KEY';
+export const FB_TOKEN_LC_KEY = 'FB_TOKEN_LC_KEY';
+export const LC_BODY_KEY = 'FRIEND_RC_BODY';
 export const BdsTypeArray = [
     {key: 'CHO_THUE_PHONG', value: 'Cho thuê phòng'},
     {key: 'TIM_PHONG', value: 'Tìm phòng'},
@@ -75,4 +77,4 @@ export const BDS_REGEX = [
     }
 ];
 
-export const API_TOKEN_LC_KEY = 'API_TOKEN_LC_KEY';
+export const API_TOKEN_LC_K = 'API_TOKEN_LC_KEY';

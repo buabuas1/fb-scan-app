@@ -3,7 +3,7 @@ import * as queryString from 'query-string';
 import {ElectronService} from '../core/services';
 import {GetFriendRecentlyModel} from '../common/model/get-friend-recently.model';
 import {HeaderModel} from '../common/model/header.model';
-import {FB_COOKIE_LC_KEY, FB_GROUP_ID_LC_KEY, FB_INVITE_LC_KEY} from '../common/constant';
+import {FB_COOKIE_LC_KEY, FB_GROUP_ID_LC_KEY, FB_INVITE_LC_KEY, LC_BODY_KEY} from '../common/constant';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {InviteToGroupBodyModel} from '../common/model/invite-to-group-body.model';
 
@@ -16,7 +16,7 @@ export class GroupComponent implements OnInit {
     public fbBody: any;
     public body: GetFriendRecentlyModel;
     public header: HeaderModel;
-    public LC_BODY_KEY = 'FRIEND_RC_BODY'
+    public LC_BODY_KEY = LC_BODY_KEY;
     public listIdsStr = '';
     public listIds = [];
     public groupId = '1854370624678388,3216226258488385,2867265896836477,634484607205600';

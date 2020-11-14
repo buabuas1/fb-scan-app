@@ -3,7 +3,7 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
-import {API_TOKEN_LC_KEY} from '../constant';
+import {API_TOKEN_LC_K} from '../constant';
 // import {SessionSettingsService} from '@core/services/settings';
 // import {AuthService} from '@core/services/auth';
 
@@ -19,7 +19,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
         // console.log('intercepted request ... ');
 
         // Clone the request to add the new header.
-        let token = localStorage.getItem(API_TOKEN_LC_KEY);
+        let token = localStorage.getItem(API_TOKEN_LC_K);
         // if (this.authService.isAuthenticated()) {
         //     token = this.sessionSettingsService.getToken();
         // }
