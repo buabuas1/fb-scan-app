@@ -1,0 +1,16 @@
+<div class="form-wraper modal-body">
+    <p class="confirm-message" [innerHTML]="options.message"></p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-confirm" (click)="submit.emit()" *ngIf='!options.customeButton && !options.noYes'>
+        <i class="fa fa-check-square"></i> {{options.yesText || ('Đồng ý')}}
+    </button>
+    <button type="button" class="btn btn-success" (click)="submit.emit()" *ngIf='options.customeButton && !options.noYes'>
+        <i class="fa fa-check-square"></i> {{options.yesText || ('Đồng ý')}}
+    </button>
+    <button type="button" class="btn btn-danger" (click)="submit.emit(options.customerValue || options.customerText)" *ngIf='options.customeButton && !options.noYes'>
+        <i class="fa fa-times"></i> {{options.customerText || ('Không')}}
+    </button>
+    <button type="button" class="btn btn-default" (click)="close.emit()" *ngIf="!options.noCancel">
+        <i class="fa fa-ban"></i> {{options.noText || ('Bỏ qua')}}</button>
+</div>

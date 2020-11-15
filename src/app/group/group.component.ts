@@ -100,7 +100,7 @@ export class GroupComponent implements OnInit {
                 if (rs === lsGroupId.length * this.listIds.length - 1) {
                     this.loggerService.warning(`Đã xong!`);
                     console.log(`Đã xong!`);
-                    this.logContent += `${new Date().toLocaleTimeString()} Đã xong!`;
+                    this.logContent += `${new Date().toLocaleTimeString()} Đã xong! \n`;
                 }
             })
     }

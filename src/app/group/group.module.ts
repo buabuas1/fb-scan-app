@@ -13,6 +13,7 @@ import { AddFriendComponent } from './add-friend/add-friend.component';
 import { GetGroupMemberComponent } from './get-group-member/get-group-member.component';
 import { SettingTokenComponent } from './setting-token/setting-token.component';
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
+import {BlackListService} from '../core/services/black-list.service';
 
 @NgModule({
     declarations: [GroupComponent, AddFriendComponent, GetGroupMemberComponent, SettingTokenComponent],
@@ -23,7 +24,8 @@ import {UserFacebookTokenService} from '../core/services/user-facebook-token.ser
         LoggerService,
         FbGroupService,
         BdsContentApiService,
-        UserFacebookTokenService
+        UserFacebookTokenService,
+        BlackListService
     ]
 })
 export class GroupModule {

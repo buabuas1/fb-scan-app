@@ -11,9 +11,11 @@ import { ModalModule, PopoverModule, CollapseModule } from 'ngx-bootstrap';
 import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 import { HeaderComponent } from './components/header/header.component';
 import {RouterModule} from '@angular/router';
+import {ConfirmComponent} from './modal/confirm/confirm.component';
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective,
       ModalComponent,
+      ConfirmComponent,
       HeaderComponent],
   imports: [CommonModule, TranslateModule, FormsModule,
       ModalModule.forRoot(),
