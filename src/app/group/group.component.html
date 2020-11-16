@@ -4,6 +4,9 @@
         {{ 'Phát triển nhóm' | translate }}
     </h1>
     <button class="btn btn-sm btn-warning" (click)="changeSetting()">Setting</button>
+    <div>
+        <label class="text-info bg-primary">Current User: {{userToken?.facebookName}}</label>
+    </div>
     <div class="row" *ngIf="!isShowSetting">
         <div class="col-md-4">
             <label class="text-info bg-primary">Lấy danh sách bạn mới thêm</label>

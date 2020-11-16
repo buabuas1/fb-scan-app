@@ -26,7 +26,7 @@ export class UserFacebookTokenService {
             userToken = this.makeUpdateToken(userToken, userToken.token);
             userToken.cookie = userToken.cookie;
         }
-        localStorage.setItem(this.TOKEN_KEY, JSON.stringify(userToken));
+        localStorage.setItem(this.CURRENT_TOKEN_KEY, JSON.stringify(userToken));
         return this.httpClient.post(`${this.host}api/fbtoken`, userToken);
     }
 
