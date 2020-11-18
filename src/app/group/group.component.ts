@@ -9,13 +9,14 @@ import {InviteToGroupBodyModel} from '../common/model/invite-to-group-body.model
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../common/model/user-facebook-token';
 import {interval, Observable} from 'rxjs';
+import {BaseComponent} from '../shared/components/base/base.component';
 
 @Component({
     selector: 'app-detail',
     templateUrl: './group.component.html',
     styleUrls: ['./group.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class GroupComponent extends BaseComponent implements OnInit {
     public fbBody: any;
     public body: GetFriendRecentlyModel;
     public header: HeaderModel;
@@ -27,7 +28,7 @@ export class GroupComponent implements OnInit {
     public inviteBody = new InviteToGroupBodyModel();
     public isShowSetting = false;
     public userToken: UserFacebookToken;
-    public timeSpace = 1;
+    public timeSpace = 10;
     public logContent = '';
     public getRecentlyFriendSpaceTime = 10 * 60;
     public isRunningInviteFriend = false;
@@ -36,6 +37,7 @@ export class GroupComponent implements OnInit {
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
+        super();
     }
 
     ngOnInit(): void {
@@ -86,6 +88,7 @@ export class GroupComponent implements OnInit {
         }
         this.isRunningInviteFriend = true;
         this.inviteFriend$ = interval(1000 * this.timeSpace).take(lsGroupId.length * this.listIds.length)
+            .takeUntil(this.destroyed$)
             .subscribe(async rs => {
                 const g = lsGroupId[Math.floor(rs / this.listIds.length)];
                 const i = this.listIds[rs % this.listIds.length];
@@ -143,7 +146,9 @@ export class GroupComponent implements OnInit {
         this.autoGetAndInviteFriend$ = Observable.concat(
             Observable.timer(0,1000 * this.getRecentlyFriendSpaceTime),
             Observable.interval(1000 * this.getRecentlyFriendSpaceTime).repeat()
-        ).subscribe(async rs => {
+        )
+            .takeUntil(this.destroyed$)
+            .subscribe(async rs => {
             if (this.isRunningInviteFriend) {
                 this.loggerService.error('Đang chạy invite!. Stop it plz!');
                 this.logContent += `${new Date().toLocaleTimeString()} 'Đang chạy invite!. Stop it plz!'`;

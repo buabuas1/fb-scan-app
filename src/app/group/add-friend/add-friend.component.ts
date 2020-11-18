@@ -10,20 +10,21 @@ import {UserFacebookToken} from '../../common/model/user-facebook-token';
 import {interval, Observable} from 'rxjs';
 import {BlackListService} from '../../core/services/black-list.service';
 import {IConfirmOptions} from '../../shared/modal/confirm/confirm.component';
+import {BaseComponent} from '../../shared/components/base/base.component';
 
 @Component({
     selector: 'app-add-friend',
     templateUrl: './add-friend.component.html',
     styleUrls: ['./add-friend.component.scss']
 })
-export class AddFriendComponent implements OnInit {
+export class AddFriendComponent extends BaseComponent implements OnInit {
     public listIdsStr: any;
     public inviteBodyStr: any;
     public inviteBody: InviteFriendBodyModel;
     public header: HeaderModel;
     public cancelToken = false;
     public userToken: UserFacebookToken;
-    public spaceTime = 1;
+    public spaceTime = 10;
     public logContent = '';
     public blackListUser = [];
 
@@ -32,6 +33,7 @@ export class AddFriendComponent implements OnInit {
                 private userFacebookTokenService: UserFacebookTokenService,
                 private modalService: ModalService,
                 private blackListService: BlackListService) {
+        super();
     }
 
     ngOnInit(): void {
@@ -55,6 +57,7 @@ export class AddFriendComponent implements OnInit {
         listIds = R.uniq(listIds).filter(r => r && !R.any(u => u.userId === r, this.blackListUser));
         let unSuccessAddList = [];
         const a = interval(1000 * this.spaceTime).take(listIds.length)
+            .takeUntil(this.destroyed$)
             .subscribe(async rs => {
                 const i = listIds[rs];
                 if (this.cancelToken) {

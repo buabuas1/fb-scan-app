@@ -28,6 +28,12 @@ export class SettingTokenComponent implements OnInit {
         this.userFacebookTokenService.saveSettingToken(this.currentToken)
             .subscribe(rs => {
                 this.onUserChange(null);
+                this.userFacebookTokenService.getSettingToken()
+                    .subscribe(rs => {
+                        localStorage.setItem(this.userFacebookTokenService.TOKEN_KEY, JSON.stringify(rs));
+                        this.loggerService.success('Tải về Token thành công!');
+                        this.userTokens = JSON.parse(localStorage.getItem(this.userFacebookTokenService.TOKEN_KEY)) as UserFacebookToken[];
+                    })
                 this.loggerService.success('Thành công!');
             }, error => {
                 this.loggerService.error(error);

@@ -12,11 +12,13 @@ import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 import { HeaderComponent } from './components/header/header.component';
 import {RouterModule} from '@angular/router';
 import {ConfirmComponent} from './modal/confirm/confirm.component';
+import { BaseComponent } from './components/base/base.component';
 @NgModule({
   declarations: [PageNotFoundComponent, WebviewDirective,
       ModalComponent,
       ConfirmComponent,
-      HeaderComponent],
+      HeaderComponent,
+      BaseComponent],
   imports: [CommonModule, TranslateModule, FormsModule,
       ModalModule.forRoot(),
       PopoverModule.forRoot(),
