@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FB_COOKIE_LC_KEY, FB_FRIEND_ADD_LC_KEY} from '../../common/constant';
+import {FB_FRIEND_ADD_LC_KEY} from '../../common/constant';
 import {InviteFriendBodyModel} from '../../common/model/invite-friend-body.model';
 import * as R from 'ramda';
 import {ElectronService, ModalService} from '../../core/services';
@@ -7,7 +7,7 @@ import {LoggerService} from '../../core/services/logger/logger.service';
 import {HeaderModel} from '../../common/model/header.model';
 import {UserFacebookTokenService} from '../../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../../common/model/user-facebook-token';
-import {interval, Observable} from 'rxjs';
+import {interval} from 'rxjs';
 import {BlackListService} from '../../core/services/black-list.service';
 import {IConfirmOptions} from '../../shared/modal/confirm/confirm.component';
 import {BaseComponent} from '../../shared/components/base/base.component';
@@ -24,7 +24,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     public header: HeaderModel;
     public cancelToken = false;
     public userToken: UserFacebookToken;
-    public spaceTime = 10;
+    public spaceTime = 30;
     public logContent = '';
     public blackListUser = [];
 
@@ -55,7 +55,6 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
         }
         let listIds = this.listIdsStr.replace(/"/g, '').split(',');
         listIds = R.uniq(listIds).filter(r => r && !R.any(u => u.userId === r, this.blackListUser));
-        let unSuccessAddList = [];
         const a = interval(1000 * this.spaceTime).take(listIds.length)
             .takeUntil(this.destroyed$)
             .subscribe(async rs => {
@@ -69,13 +68,12 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                     if (rs && rs.indexOf('OUTGOING_REQUEST') !== -1) {
                         this.loggerService.success(`Thêm bạn thành công: ${i}`);
                     } else {
-                        unSuccessAddList.push(i);
                         this.loggerService.error(`Thêm bạn KHÔNG thành công: ${i}`);
+                        this.logContent += `Error ${new Date().toLocaleTimeString()} Thêm bạn KHÔNG thành công: ${i}\n`;
                     }
                 } catch (ex) {
                     console.log(ex);
                     this.loggerService.error(ex);
-                    unSuccessAddList.push(i);
                 }
                 if (rs === listIds.length - 1) {
                     this.loggerService.warning(`Đã xong ${listIds.length}!`);
@@ -84,13 +82,13 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
 
                     this.modalService.confirm(<IConfirmOptions>{
                         title: `Thông báo`,
-                        message: `Bạn có ${unSuccessAddList.length} user add không thành công, bạn có muốn lưu k?`,
+                        message: `Bạn đã adđ ${listIds.length} user bạn có muốn lưu k?`,
                     }).subscribe(async confirmed => {
                         if (confirmed) {
-                            this.blackListService.saveBulkBlackList(unSuccessAddList, this.userToken.facebookUuid)
+                            this.blackListService.saveBulkBlackList(listIds, this.userToken.facebookUuid)
                                 .subscribe(rs => {
                                     this.loggerService.success('Update danh sách BL thành công!');
-                                    this.logContent += `${new Date().toLocaleTimeString()} Update danh sách BL thành công! ${unSuccessAddList.length}\n`;
+                                    this.logContent += `${new Date().toLocaleTimeString()} Update danh sách BL thành công! ${listIds.length}\n`;
                                 }, error => {
                                     console.log(error);
                                     this.loggerService.error(error);

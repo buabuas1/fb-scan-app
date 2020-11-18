@@ -28,9 +28,9 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public inviteBody = new InviteToGroupBodyModel();
     public isShowSetting = false;
     public userToken: UserFacebookToken;
-    public timeSpace = 10;
+    public timeSpace = 30;
     public logContent = '';
-    public getRecentlyFriendSpaceTime = 10 * 60;
+    public getRecentlyFriendSpaceTime = 20 * 60;
     public isRunningInviteFriend = false;
     public autoGetAndInviteFriend$: any;
     public inviteFriend$: any;
@@ -71,6 +71,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
         } catch (e) {
             this.loggerService.error(JSON.stringify(e));
             console.log(e);
+            this.logContent += `Error ${new Date().toLocaleTimeString()} Get bạn gần đây thành công \n`
         }
 
     }
@@ -101,6 +102,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
                     } else {
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
+                        this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`
                     }
                 } catch (ex) {
                     console.log(ex);
@@ -175,6 +177,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 this.inviteFriend$.unsubscribe();
                 this.loggerService.success('Stopped inviteFriend$!');
                 this.logContent += `${new Date().toLocaleTimeString()} inviteFriend$ Stopped!`;
+                this.isRunningInviteFriend = false;
             }
         }
     }
