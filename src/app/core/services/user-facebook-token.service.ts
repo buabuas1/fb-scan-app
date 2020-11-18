@@ -13,6 +13,7 @@ export class UserFacebookTokenService {
     public TOKEN_KEY = 'TOKEN_KEY';
     public CURRENT_TOKEN_KEY = 'CURRENT_TOKEN_KEY';
     private host = AppConfig.beHost;
+    private oldRecentlyFriend = [];
 
     constructor(public httpClient: HttpClient) {
     }
@@ -51,5 +52,22 @@ export class UserFacebookTokenService {
 
     public getCurrentUserToken() {
         return JSON.parse(localStorage.getItem(this.CURRENT_TOKEN_KEY)) as UserFacebookToken;
+    }
+
+    public setOldRecentlyFriend(oldRecentlyFriend: string[]) {
+        this.oldRecentlyFriend = oldRecentlyFriend;
+    }
+
+    public getOldRecentlyFriend() {
+        return this.oldRecentlyFriend;
+    }
+
+    public resetOldRecentlyFriend() {
+        this.oldRecentlyFriend = [];
+    }
+
+    public getNewestFriendIds(ids: any[] = []) {
+        const rs = ids.filter(id => this.oldRecentlyFriend.indexOf(id) === -1);
+        return rs;
     }
 }

@@ -8,7 +8,7 @@ import {LoggerService} from '../core/services/logger/logger.service';
 import {InviteToGroupBodyModel} from '../common/model/invite-to-group-body.model';
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../common/model/user-facebook-token';
-import {interval} from 'rxjs';
+import {interval, Observable} from 'rxjs';
 
 @Component({
     selector: 'app-detail',
@@ -30,6 +30,9 @@ export class GroupComponent implements OnInit {
     public userToken: UserFacebookToken;
     public timeSpace = 1;
     public logContent = '';
+    public getRecentlyFriendSpaceTime = 10 * 60;
+    public cancelGetFriendToken = false;
+    public isRunningInviteFriend = false;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -45,6 +48,7 @@ export class GroupComponent implements OnInit {
             this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
             this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
         }
+        this.userFacebookTokenService.resetOldRecentlyFriend();
     }
 
     public saveFbToken() {
@@ -77,6 +81,11 @@ export class GroupComponent implements OnInit {
         const lsGroupId = this.groupId.split(',');
         localStorage.setItem(FB_GROUP_ID_LC_KEY, this.groupId);
         this.cancelToken = false;
+        if (lsGroupId.length === 0 || this.listIds.length === 0) {
+            this.loggerService.error('Danh sách nhóm hoặc danh sách user đang trống!');
+            return;
+        }
+        this.isRunningInviteFriend = true;
         const a = interval(1000 * this.timeSpace).take(lsGroupId.length * this.listIds.length)
             .subscribe(async rs => {
                 const g = lsGroupId[Math.floor(rs / this.listIds.length)];
@@ -101,6 +110,7 @@ export class GroupComponent implements OnInit {
                     this.loggerService.warning(`Đã xong!`);
                     console.log(`Đã xong!`);
                     this.logContent += `${new Date().toLocaleTimeString()} Đã xong! \n`;
+                    this.isRunningInviteFriend = false;
                 }
             })
     }
@@ -117,5 +127,46 @@ export class GroupComponent implements OnInit {
     public changeSetting() {
         this.isShowSetting = !this.isShowSetting;
         this.ngOnInit();
+    }
+
+    public onAuto() {
+        this.cancelGetFriendToken = false;
+        if (this.isRunningInviteFriend) {
+            this.loggerService.error('Đang chạy invite!. Stop it plz!');
+        }
+        if (this.getRecentlyFriendSpaceTime < (this.listIds.length * this.groupId.split(',').length + 5) * this.timeSpace) {
+            this.loggerService.error('Thời gian giữa 2 lần chạy get user < thời gian gọi api invite!');
+            this.logContent += `${new Date().toLocaleTimeString()} Thời gian giữa 2 lần chạy get user < thời gian gọi api invite!`
+        }
+        const interval$ = Observable.concat(
+            Observable.timer(0,1000 * this.getRecentlyFriendSpaceTime),
+            Observable.interval(1000 * this.getRecentlyFriendSpaceTime).repeat()
+        ).subscribe(async rs => {
+            if (this.cancelGetFriendToken) {
+                interval$.unsubscribe();
+                this.loggerService.success('Stopped!');
+                this.logContent += `${new Date().toLocaleTimeString()} 'Stopped!`;
+                return;
+            }
+            if (this.isRunningInviteFriend) {
+                this.loggerService.error('Đang chạy invite!. Stop it plz!');
+                this.logContent += `${new Date().toLocaleTimeString()} 'Đang chạy invite!. Stop it plz!'`;
+                this.logContent += `${new Date().toLocaleTimeString()} 'Stopped!`;
+                interval$.unsubscribe();
+                return;
+            }
+            await this.callApi();
+            this.listIds = this.userFacebookTokenService.getNewestFriendIds(this.listIds);
+            this.logContent += `${new Date().toLocaleTimeString()} Có ${this.listIds.length} user mới \n`;
+
+            await this.callInviteApi();
+
+            this.userFacebookTokenService.setOldRecentlyFriend(this.listIds);
+
+        });
+    }
+
+    public onStop() {
+        this.cancelGetFriendToken = true;
     }
 }

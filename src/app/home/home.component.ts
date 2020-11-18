@@ -115,6 +115,7 @@ export class HomeComponent implements OnInit {
                     r.contentTypes) && r.postTime.getTime() > moment(new Date()).add(-2, 'day'));
             console.log('rs', data);
             const save = data.map(v => {
+                v.groupId = groupId;
                 return new BdsMongoModel(v);
             });
             this.bdsContentApiService.saveFbContent(save)

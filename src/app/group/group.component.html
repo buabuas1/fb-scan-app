@@ -18,6 +18,14 @@
             <div class="m2">
                 <button class="btn btn-sm btn-success" (click)="callApi()">Fetch</button>
             </div>
+            <div>
+                <label class="text-info">
+                    Thời gian giữa 2 lần gọi api (s)
+                    <input type="number" [(ngModel)]="getRecentlyFriendSpaceTime">
+                </label>
+                <button class="btn btn-sm btn-warning" (click)="onAuto()">Auto</button>
+                <button class="btn btn-sm btn-danger" (click)="onStop()">Stop</button>
+            </div>
             <app-get-group-member></app-get-group-member>
         </div>
         <div class="col-md-4">
