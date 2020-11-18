@@ -23,7 +23,6 @@ export class GroupComponent implements OnInit {
     public listIdsStr = '';
     public listIds = [];
     public groupId = '1854370624678388,3216226258488385,2867265896836477,634484607205600';
-    public cancelToken = false;
     public inviteBodyStr = '';
     public inviteBody = new InviteToGroupBodyModel();
     public isShowSetting = false;
@@ -31,8 +30,9 @@ export class GroupComponent implements OnInit {
     public timeSpace = 1;
     public logContent = '';
     public getRecentlyFriendSpaceTime = 10 * 60;
-    public cancelGetFriendToken = false;
     public isRunningInviteFriend = false;
+    public autoGetAndInviteFriend$: any;
+    public inviteFriend$: any;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -80,19 +80,16 @@ export class GroupComponent implements OnInit {
     public async callInviteApi() {
         const lsGroupId = this.groupId.split(',');
         localStorage.setItem(FB_GROUP_ID_LC_KEY, this.groupId);
-        this.cancelToken = false;
         if (lsGroupId.length === 0 || this.listIds.length === 0) {
             this.loggerService.error('Danh sách nhóm hoặc danh sách user đang trống!');
             return;
         }
         this.isRunningInviteFriend = true;
-        const a = interval(1000 * this.timeSpace).take(lsGroupId.length * this.listIds.length)
+        this.inviteFriend$ = interval(1000 * this.timeSpace).take(lsGroupId.length * this.listIds.length)
             .subscribe(async rs => {
                 const g = lsGroupId[Math.floor(rs / this.listIds.length)];
                 const i = this.listIds[rs % this.listIds.length];
-                if (this.cancelToken) {
-                    a.unsubscribe();
-                }
+
                 this.inviteBody.setGroupId(g);
                 this.inviteBody.setUserId(i);
                 try {
@@ -121,7 +118,13 @@ export class GroupComponent implements OnInit {
     }
 
     public Stop() {
-        this.cancelToken = true;
+        this.isRunningInviteFriend = false;
+        if (this.inviteFriend$) {
+            this.inviteFriend$.unsubscribe();
+            this.isRunningInviteFriend = false;
+            this.loggerService.success('Đã dừng hoàn toàn invite friend');
+            this.logContent += `${new Date().toLocaleTimeString()} Đã dừng hoàn toàn invite friend\n`;
+        }
     }
 
     public changeSetting() {
@@ -130,7 +133,6 @@ export class GroupComponent implements OnInit {
     }
 
     public onAuto() {
-        this.cancelGetFriendToken = false;
         if (this.isRunningInviteFriend) {
             this.loggerService.error('Đang chạy invite!. Stop it plz!');
         }
@@ -138,21 +140,14 @@ export class GroupComponent implements OnInit {
             this.loggerService.error('Thời gian giữa 2 lần chạy get user < thời gian gọi api invite!');
             this.logContent += `${new Date().toLocaleTimeString()} Thời gian giữa 2 lần chạy get user < thời gian gọi api invite!`
         }
-        const interval$ = Observable.concat(
+        this.autoGetAndInviteFriend$ = Observable.concat(
             Observable.timer(0,1000 * this.getRecentlyFriendSpaceTime),
             Observable.interval(1000 * this.getRecentlyFriendSpaceTime).repeat()
         ).subscribe(async rs => {
-            if (this.cancelGetFriendToken) {
-                interval$.unsubscribe();
-                this.loggerService.success('Stopped!');
-                this.logContent += `${new Date().toLocaleTimeString()} 'Stopped!`;
-                return;
-            }
             if (this.isRunningInviteFriend) {
                 this.loggerService.error('Đang chạy invite!. Stop it plz!');
                 this.logContent += `${new Date().toLocaleTimeString()} 'Đang chạy invite!. Stop it plz!'`;
-                this.logContent += `${new Date().toLocaleTimeString()} 'Stopped!`;
-                interval$.unsubscribe();
+                this.onStop();
                 return;
             }
             await this.callApi();
@@ -167,6 +162,15 @@ export class GroupComponent implements OnInit {
     }
 
     public onStop() {
-        this.cancelGetFriendToken = true;
+        if (this.autoGetAndInviteFriend$) {
+            this.autoGetAndInviteFriend$.unsubscribe();
+            this.loggerService.success('Stopped autoGetAndInviteFriend$!');
+            this.logContent += `${new Date().toLocaleTimeString()} autoGetAndInviteFriend$ Stopped!`;
+            if (this.inviteFriend$) {
+                this.inviteFriend$.unsubscribe();
+                this.loggerService.success('Stopped inviteFriend$!');
+                this.logContent += `${new Date().toLocaleTimeString()} inviteFriend$ Stopped!`;
+            }
+        }
     }
 }
