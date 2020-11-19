@@ -35,7 +35,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public autoGetAndInviteFriend$: any;
     public inviteFriend$: any;
     public numberOfCalledInviteApi = 0;
-    private maxInviteNumber = 49;
+    private maxInviteNumber = 50;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -100,19 +100,19 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 this.inviteBody.setGroupId(g);
                 this.inviteBody.setUserId(i);
                 try {
-                    if (this.numberOfCalledInviteApi > this.maxInviteNumber) {
-                        this.loggerService.error('Vợt quá số lượng gọi api 1 ngày!');
-                        this.logContent += `${new Date().toLocaleTimeString()} vượt quá giới hạn\n`;
-                        this.Stop();
-                        return ;
-                    }
-                    this.numberOfCalledInviteApi++;
                     const rs = await this.electronService.callApi(this.inviteBody, this.header);
                     if (rs && rs.indexOf(g) !== -1) {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
                     } else {
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`
+                    }
+                    this.numberOfCalledInviteApi++;
+                    if (this.numberOfCalledInviteApi >= this.maxInviteNumber * lsGroupId.length) {
+                        this.loggerService.error('Vợt quá số lượng gọi api 1 ngày!');
+                        this.logContent += `${new Date().toLocaleTimeString()} vượt quá giới hạn\n`;
+                        this.Stop();
+                        return ;
                     }
                 } catch (ex) {
                     console.log(ex);
