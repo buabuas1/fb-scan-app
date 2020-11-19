@@ -35,6 +35,10 @@
                 <input type="number" [(ngModel)]="timeSpace"/>
             </div>
             <div class="m2">
+                <div>Số lần gọi api</div>
+                <input type="number" [(ngModel)]="numberOfCalledInviteApi"/>
+            </div>
+            <div class="m2">
                 <div><b>DS ID</b></div>
                 <input type="text" [(ngModel)]="listIdsStr"/>
                 <button class="btn btn-sm btn-success" (click)="saveListId()">Save</button>

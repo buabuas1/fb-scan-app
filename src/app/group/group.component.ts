@@ -34,6 +34,8 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public isRunningInviteFriend = false;
     public autoGetAndInviteFriend$: any;
     public inviteFriend$: any;
+    public numberOfCalledInviteApi = 0;
+    private maxInviteNumber = 49;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -51,6 +53,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
         }
         this.userFacebookTokenService.resetOldRecentlyFriend();
+        this.numberOfCalledInviteApi = 0;
     }
 
     public saveFbToken() {
@@ -97,6 +100,13 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 this.inviteBody.setGroupId(g);
                 this.inviteBody.setUserId(i);
                 try {
+                    if (this.numberOfCalledInviteApi > this.maxInviteNumber) {
+                        this.loggerService.error('Vợt quá số lượng gọi api 1 ngày!');
+                        this.logContent += `${new Date().toLocaleTimeString()} vượt quá giới hạn\n`;
+                        this.Stop();
+                        return ;
+                    }
+                    this.numberOfCalledInviteApi++;
                     const rs = await this.electronService.callApi(this.inviteBody, this.header);
                     if (rs && rs.indexOf(g) !== -1) {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
@@ -163,8 +173,9 @@ export class GroupComponent extends BaseComponent implements OnInit {
 
             await this.callInviteApi();
 
-            this.userFacebookTokenService.setOldRecentlyFriend(this.listIds);
-
+            if (this.listIds && this.listIds.length > 0) {
+                this.userFacebookTokenService.setOldRecentlyFriend(this.listIds);
+            }
         });
     }
 

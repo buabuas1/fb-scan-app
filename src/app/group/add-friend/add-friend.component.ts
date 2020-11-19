@@ -7,7 +7,7 @@ import {LoggerService} from '../../core/services/logger/logger.service';
 import {HeaderModel} from '../../common/model/header.model';
 import {UserFacebookTokenService} from '../../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../../common/model/user-facebook-token';
-import {interval} from 'rxjs';
+import {interval, Observable, Subscription} from 'rxjs';
 import {BlackListService} from '../../core/services/black-list.service';
 import {IConfirmOptions} from '../../shared/modal/confirm/confirm.component';
 import {BaseComponent} from '../../shared/components/base/base.component';
@@ -22,11 +22,11 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     public inviteBodyStr: any;
     public inviteBody: InviteFriendBodyModel;
     public header: HeaderModel;
-    public cancelToken = false;
     public userToken: UserFacebookToken;
     public spaceTime = 30;
     public logContent = '';
     public blackListUser = [];
+    public callApi$: Subscription;
 
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
@@ -49,18 +49,22 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     }
 
     public async onAddFriend() {
-        this.cancelToken = false;
         if (this.blackListUser && this.blackListUser.length === 0) {
             this.loggerService.warning('Danh sách blacklist đang trống!');
         }
         let listIds = this.listIdsStr.replace(/"/g, '').split(',');
         listIds = R.uniq(listIds).filter(r => r && !R.any(u => u.userId === r, this.blackListUser));
-        const a = interval(1000 * this.spaceTime).take(listIds.length)
-            .takeUntil(this.destroyed$)
+        this.loggerService.warning(`Có ${listIds.length} user thỏa mãn!`);
+        this.logContent += `${new Date().toLocaleTimeString()} Bắt đầu add ${listIds.length} user thỏa mãn!\n`;
+        this.callApi$ = Observable.concat(
+            Observable.timer(0,1000 * this.spaceTime),
+            Observable.interval(1000 * this.spaceTime).repeat()
+        ).takeUntil(this.destroyed$)
             .subscribe(async rs => {
                 const i = listIds[rs];
-                if (this.cancelToken) {
-                    a.unsubscribe();
+                const percent = Math.round(rs / listIds.length * 100);
+                if (percent % 20 === 0) {
+                    this.logContent += `${new Date().toLocaleTimeString()} mời được ${percent}%!\n`;
                 }
                 this.inviteBody.setUserId(i);
                 try {
@@ -76,6 +80,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                     this.loggerService.error(ex);
                 }
                 if (rs === listIds.length - 1) {
+                    this.onStop();
                     this.loggerService.warning(`Đã xong ${listIds.length}!`);
                     console.log(`Đã xong! ${listIds.length}`);
                     this.logContent += `${new Date().toLocaleTimeString()} Đã xong! ${listIds.length}\n`;
@@ -105,6 +110,8 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     }
 
     public onStop() {
-        this.cancelToken = true;
+        if (this.callApi$) {
+            this.callApi$.unsubscribe();
+        }
     }
 }

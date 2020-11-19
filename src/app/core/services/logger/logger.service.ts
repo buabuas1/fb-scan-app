@@ -32,4 +32,9 @@ export class LoggerService {
             position: this.position
         });
     }
+
+    public addLog(currentLog: any, content: string) {
+        currentLog += `${new Date().toLocaleTimeString()} ` + content;
+        return currentLog;
+    }
 }
