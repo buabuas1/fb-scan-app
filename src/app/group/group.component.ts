@@ -112,7 +112,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                     if (this.numberOfCalledInviteApi >= this.maxInviteNumber * lsGroupId.length) {
                         this.loggerService.error('Vợt quá số lượng gọi api 1 ngày!');
                         this.logContent += `${new Date().toLocaleTimeString()} vượt quá giới hạn\n`;
-                        this.Stop();
+                        this.onStop();
                         return ;
                     }
                 } catch (ex) {
@@ -185,12 +185,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.autoGetAndInviteFriend$.unsubscribe();
             this.loggerService.success('Stopped autoGetAndInviteFriend$!');
             this.logContent += `${new Date().toLocaleTimeString()} autoGetAndInviteFriend$ Stopped!`;
-            if (this.inviteFriend$) {
-                this.inviteFriend$.unsubscribe();
-                this.loggerService.success('Stopped inviteFriend$!');
-                this.logContent += `${new Date().toLocaleTimeString()} inviteFriend$ Stopped!`;
-                this.isRunningInviteFriend = false;
-            }
         }
+        this.Stop();
     }
 }
