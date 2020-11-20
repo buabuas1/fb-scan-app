@@ -100,12 +100,13 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 this.inviteBody.setGroupId(g);
                 this.inviteBody.setUserId(i);
                 try {
-                    const rs = await this.electronService.callApi(this.inviteBody, this.header);
-                    if (rs && rs.indexOf(g) !== -1) {
+                    const rs1 = await this.electronService.callApi(this.inviteBody, this.header);
+                    if (rs1 && rs1.indexOf(g) !== -1) {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
                     } else {
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`
+                        this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công ở api thứ ${rs}\n`
                     }
                     this.numberOfCalledInviteApi++;
                     if (this.numberOfCalledInviteApi >= this.maxInviteNumber * lsGroupId.length) {
