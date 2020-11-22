@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import * as queryString from 'query-string';
+import * as R from 'ramda';
 import {ElectronService} from '../core/services';
 import {GetFriendRecentlyModel} from '../common/model/get-friend-recently.model';
 import {HeaderModel} from '../common/model/header.model';
@@ -169,13 +169,15 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 return;
             }
             await this.callApi();
+            const latestFriends = R.clone(this.listIds);
             this.listIds = this.userFacebookTokenService.getNewestFriendIds(this.listIds);
+            this.listIdsStr = this.listIds.join(',');
             this.logContent += `${new Date().toLocaleTimeString()} Có ${this.listIds.length} user mới \n`;
 
             await this.callInviteApi();
 
             if (this.listIds && this.listIds.length > 0) {
-                this.userFacebookTokenService.setOldRecentlyFriend(this.listIds);
+                this.userFacebookTokenService.setOldRecentlyFriend(latestFriends);
             }
         });
     }
