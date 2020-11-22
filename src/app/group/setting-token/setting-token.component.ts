@@ -2,38 +2,39 @@ import {Component, OnInit} from '@angular/core';
 import {UserFacebookTokenService} from '../../core/services/user-facebook-token.service';
 import {LoggerService} from '../../core/services/logger/logger.service';
 import {UserFacebookToken} from '../../common/model/user-facebook-token';
+import {BaseComponent} from '../../shared/components/base/base.component';
 
 @Component({
     selector: 'app-setting-token',
     templateUrl: './setting-token.component.html',
     styleUrls: ['./setting-token.component.scss']
 })
-export class SettingTokenComponent implements OnInit {
+export class SettingTokenComponent extends BaseComponent implements OnInit {
     public userTokens: UserFacebookToken[] = [];
     public currentToken: UserFacebookToken = {} as UserFacebookToken;
     constructor(private userFacebookTokenService: UserFacebookTokenService,
                 private loggerService: LoggerService) {
+        super();
     }
 
     ngOnInit(): void {
-        this.userTokens = JSON.parse(localStorage.getItem(this.userFacebookTokenService.TOKEN_KEY)) as UserFacebookToken[];
-        this.currentToken = JSON.parse(localStorage.getItem(this.userFacebookTokenService.CURRENT_TOKEN_KEY)) as UserFacebookToken;
-        if (!this.currentToken && this.userTokens.length > 0) {
-            this.currentToken = this.userTokens[0];
-            this.onUserChange(null);
-        }
+        this.userFacebookTokenService.tokenList
+            .takeUntil(this.destroyed$)
+            .subscribe(rs => {
+                this.userTokens = rs;
+            })
+        this.userFacebookTokenService.activeToken
+            .takeUntil(this.destroyed$)
+            .subscribe(rs => {
+                this.currentToken = rs;
+            })
     }
 
     public saveData() {
         this.userFacebookTokenService.saveSettingToken(this.currentToken)
             .subscribe(rs => {
-                this.onUserChange(null);
-                this.userFacebookTokenService.getSettingToken()
-                    .subscribe(rs => {
-                        localStorage.setItem(this.userFacebookTokenService.TOKEN_KEY, JSON.stringify(rs));
-                        this.loggerService.success('Tải về Token thành công!');
-                        this.userTokens = JSON.parse(localStorage.getItem(this.userFacebookTokenService.TOKEN_KEY)) as UserFacebookToken[];
-                    })
+                this.userFacebookTokenService.activeToken.next(rs as UserFacebookToken);
+                this.userFacebookTokenService.resetTokenList()
                 this.loggerService.success('Thành công!');
             }, error => {
                 this.loggerService.error(error);
@@ -42,6 +43,6 @@ export class SettingTokenComponent implements OnInit {
     }
 
     public onUserChange($event: any) {
-        localStorage.setItem(this.userFacebookTokenService.CURRENT_TOKEN_KEY, JSON.stringify(this.currentToken));
+        this.userFacebookTokenService.activeToken.next(this.currentToken);
     }
 }

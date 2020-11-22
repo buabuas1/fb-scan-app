@@ -17,13 +17,14 @@ import {BdsMongoModel} from '../common/model/facebook/bds-mongo.model';
 import {HeaderModel} from '../common/model/header.model';
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../common/model/user-facebook-token';
+import {BaseComponent} from '../shared/components/base/base.component';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BaseComponent implements OnInit {
     public body = new GetGroupBodyModel();
     public groups = '';
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
@@ -57,14 +58,21 @@ export class HomeComponent implements OnInit {
                 private bdsContentApiService: BdsContentApiService,
                 private userFacebookTokenService: UserFacebookTokenService
     ) {
+        super();
     }
 
     ngOnInit(): void {
-        this.userFacebookTokenService.getSettingToken()
+        this.userFacebookTokenService.resetTokenList();
+        this.userFacebookTokenService.tokenList
+            .takeUntil(this.destroyed$)
             .subscribe(rs => {
-                localStorage.setItem(this.userFacebookTokenService.TOKEN_KEY, JSON.stringify(rs));
-                this.loggerService.success('Tải về Token thành công!');
-                this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
+                console.log('Rs: ', rs);
+            })
+        this.userFacebookTokenService.activeToken
+            .takeUntil(this.destroyed$)
+            .subscribe(rs => {
+                this.userToken = rs;
+                console.log('active', rs);
                 if (this.userToken){
                     this.fbBody = this.userToken.getGroupFeedBody;
                     this.body = new GetGroupBodyModel(this.fbBody);

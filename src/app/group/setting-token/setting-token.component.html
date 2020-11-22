@@ -7,15 +7,19 @@
     <div class="row">
         <div class="col-sm-6">
             <div>
-                <label>Token</label>
+                <label class="text-info bg-primary">Tên</label>
+                <input [(ngModel)]="currentToken.facebookName">
+            </div>
+            <div>
+                <label class="text-info bg-primary">Token</label>
                 <input [(ngModel)]="currentToken.token">
             </div>
             <div>
-                <label>Cookie</label>
+                <label class="text-info bg-primary">Cookie</label>
                 <input [(ngModel)]="currentToken.cookie">
             </div>
             <div>
-                <label>Uuid</label>
+                <label class="text-info bg-primary">Uuid</label>
                 <input [(ngModel)]="currentToken.facebookUuid">
             </div>
         </div>

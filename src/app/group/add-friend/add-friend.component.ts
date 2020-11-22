@@ -37,14 +37,18 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
-        this.inviteBodyStr = this.userToken.addFriendBody;
-        this.inviteBody = new InviteFriendBodyModel(this.inviteBodyStr);
-        this.header = new HeaderModel(this.userToken);
-        this.blackListService.getBlackList(this.userToken.facebookUuid)
+        this.userFacebookTokenService.activeToken
+            .takeUntil(this.destroyed$)
             .subscribe(rs => {
-                this.blackListUser = rs as any[];
-                this.loggerService.success('Lấy thành công danh sách black list');
+                this.userToken = rs;
+                this.inviteBodyStr = this.userToken.addFriendBody;
+                this.inviteBody = new InviteFriendBodyModel(this.inviteBodyStr);
+                this.header = new HeaderModel(this.userToken);
+                this.blackListService.getBlackList(this.userToken.facebookUuid)
+                    .subscribe(rs => {
+                        this.blackListUser = rs as any[];
+                        this.loggerService.success('Lấy thành công danh sách black list');
+                    })
             })
     }
 
@@ -106,7 +110,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
 
     public saveInviteBody() {
         this.inviteBody = new InviteFriendBodyModel(this.inviteBodyStr);
-        localStorage.setItem(FB_FRIEND_ADD_LC_KEY, this.inviteBodyStr);
+        // localStorage.setItem(FB_FRIEND_ADD_LC_KEY, this.inviteBodyStr);
     }
 
     public onStop() {

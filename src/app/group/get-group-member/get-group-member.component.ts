@@ -7,13 +7,14 @@ import {FB_COOKIE_LC_KEY, FB_GET_MEM_LC_KEY} from '../../common/constant';
 import {GetMemGroupBodyModel} from '../../common/model/get-mem-group-body.model';
 import {UserFacebookTokenService} from '../../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../../common/model/user-facebook-token';
+import {BaseComponent} from '../../shared/components/base/base.component';
 
 @Component({
     selector: 'app-get-group-member',
     templateUrl: './get-group-member.component.html',
     styleUrls: ['./get-group-member.component.scss']
 })
-export class GetGroupMemberComponent implements OnInit {
+export class GetGroupMemberComponent extends BaseComponent implements OnInit {
 
     public listIdsStr: any;
     public inviteBodyStr: any;
@@ -26,13 +27,18 @@ export class GetGroupMemberComponent implements OnInit {
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
+        super();
     }
 
     ngOnInit(): void {
-        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
-        this.inviteBodyStr = this.userToken.getMemberOfGroupBody;
-        this.inviteBody = new GetMemGroupBodyModel(this.inviteBodyStr);
-        this.header = new HeaderModel(this.userToken);
+        this.userFacebookTokenService.activeToken
+            .takeUntil(this.destroyed$)
+            .subscribe(rs => {
+                this.userToken = rs;
+                this.inviteBodyStr = this.userToken.getMemberOfGroupBody;
+                this.inviteBody = new GetMemGroupBodyModel(this.inviteBodyStr);
+                this.header = new HeaderModel(this.userToken);
+            })
     }
 
     public async onGetMember() {
@@ -61,7 +67,7 @@ export class GetGroupMemberComponent implements OnInit {
 
     public saveInviteBody() {
         this.inviteBody = new GetMemGroupBodyModel(this.inviteBodyStr);
-        localStorage.setItem(FB_GET_MEM_LC_KEY, this.inviteBodyStr);
+        // localStorage.setItem(FB_GET_MEM_LC_KEY, this.inviteBodyStr);
     }
 
 }

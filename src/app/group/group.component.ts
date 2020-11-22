@@ -43,17 +43,21 @@ export class GroupComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.userToken  = this.userFacebookTokenService.getCurrentUserToken();
-        if (this.userToken) {
-            this.fbBody = this.userToken.getRecentlyFriendBody;
-            this.body = new GetFriendRecentlyModel(this.fbBody);
-            this.header = new HeaderModel(this.userToken);
-            this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
-            this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
-            this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
-        }
-        this.userFacebookTokenService.resetOldRecentlyFriend();
-        this.numberOfCalledInviteApi = 0;
+        this.userFacebookTokenService.activeToken
+            .takeUntil(this.destroyed$)
+            .subscribe(rs => {
+                this.userToken = rs;
+                if (this.userToken) {
+                    this.fbBody = this.userToken.getRecentlyFriendBody;
+                    this.body = new GetFriendRecentlyModel(this.fbBody);
+                    this.header = new HeaderModel(this.userToken);
+                    this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
+                    this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
+                    this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
+                }
+                this.userFacebookTokenService.resetOldRecentlyFriend();
+                this.numberOfCalledInviteApi = 0;
+            })
     }
 
     public saveFbToken() {
