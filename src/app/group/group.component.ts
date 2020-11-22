@@ -71,6 +71,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.listIdsStr = this.listIds.join(',');
             this.loggerService.success(`Get bạn gần đây thành công: ${ids.length}`);
             this.loggerService.success(`Tên: ${data.map(u => u.node.title.text).join(', ')}`);
+            this.logContent += `${new Date().toLocaleTimeString()} Tên: ${data.map(u => u.node.title.text).join(', ')}`;
         } catch (e) {
             this.loggerService.error(JSON.stringify(e));
             console.log(e);
@@ -172,6 +173,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
             const latestFriends = R.clone(this.listIds);
             this.listIds = this.userFacebookTokenService.getNewestFriendIds(this.listIds);
             this.listIdsStr = this.listIds.join(',');
+            this.logContent += `${new Date().toLocaleTimeString()} DS Bạn mới mới ${this.listIdsStr}`;
             this.logContent += `${new Date().toLocaleTimeString()} Có ${this.listIds.length} user mới \n`;
 
             await this.callInviteApi();
