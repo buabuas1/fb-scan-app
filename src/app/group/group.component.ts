@@ -79,7 +79,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
         } catch (e) {
             this.loggerService.error(JSON.stringify(e));
             console.log(e);
-            this.logContent += `Error ${new Date().toLocaleTimeString()} Get bạn gần đây thành công \n`
+            this.logContent += `Error ${new Date().toLocaleTimeString()} Get bạn gần đây KHÔNG thành công \n`
         }
 
     }
