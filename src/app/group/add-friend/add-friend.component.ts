@@ -60,6 +60,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
         listIds = R.uniq(listIds).filter(r => r && !R.any(u => u.userId === r, this.blackListUser));
         this.loggerService.warning(`Có ${listIds.length} user thỏa mãn!`);
         this.logContent += `${new Date().toLocaleTimeString()} Bắt đầu add ${listIds.length} user thỏa mãn!\n`;
+        let successInvited = 0;
         this.callApi$ = Observable.concat(
             Observable.timer(0,1000 * this.spaceTime),
             Observable.interval(1000 * this.spaceTime).repeat()
@@ -75,6 +76,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                     const rs = await this.electronService.callApi(this.inviteBody, this.header);
                     if (rs && rs.indexOf('OUTGOING_REQUEST') !== -1) {
                         this.loggerService.success(`Thêm bạn thành công: ${i}`);
+                        successInvited++;
                     } else {
                         this.loggerService.error(`Thêm bạn KHÔNG thành công: ${i}`);
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Thêm bạn KHÔNG thành công: ${i}\n`;
@@ -86,8 +88,8 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                 if (rs === listIds.length - 1) {
                     this.onStop();
                     this.loggerService.warning(`Đã xong ${listIds.length}!`);
-                    console.log(`Đã xong! ${listIds.length}`);
-                    this.logContent += `${new Date().toLocaleTimeString()} Đã xong! ${listIds.length}\n`;
+                    console.log(`Đã xong! ${listIds.length} thành công ${successInvited} user`);
+                    this.logContent += `${new Date().toLocaleTimeString()} Đã xong! Tổng ${listIds.length}, Thành công ${successInvited} user\n`;
 
                     this.modalService.confirm(<IConfirmOptions>{
                         title: `Thông báo`,

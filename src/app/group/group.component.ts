@@ -35,7 +35,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public autoGetAndInviteFriend$: any;
     public inviteFriend$: any;
     public numberOfCalledInviteApi = 0;
-    private maxInviteNumber = 50;
+    public maxInviteNumber = 50;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -54,6 +54,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                     this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
                     this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
                     this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
+                    document.title = this.userToken.facebookName;
                 }
                 this.userFacebookTokenService.resetOldRecentlyFriend();
                 this.numberOfCalledInviteApi = 0;
@@ -93,6 +94,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
         localStorage.setItem(FB_GROUP_ID_LC_KEY, this.groupId);
         if (lsGroupId.length === 0 || this.listIds.length === 0) {
             this.loggerService.error('Danh sách nhóm hoặc danh sách user đang trống!');
+            this.logContent += `${new Date().toLocaleTimeString()} Danh sách nhóm hoặc danh sách user đang trống!\n`;
             return;
         }
         this.isRunningInviteFriend = true;
