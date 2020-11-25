@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import * as R from 'ramda';
-import {ElectronService} from '../core/services';
+import {ElectronService, ModalService} from '../core/services';
 import {GetFriendRecentlyModel} from '../common/model/get-friend-recently.model';
 import {HeaderModel} from '../common/model/header.model';
 import {FB_COOKIE_LC_KEY, FB_GROUP_ID_LC_KEY, FB_INVITE_LC_KEY, LC_BODY_KEY} from '../common/constant';
@@ -10,6 +10,7 @@ import {UserFacebookTokenService} from '../core/services/user-facebook-token.ser
 import {UserFacebookToken} from '../common/model/user-facebook-token';
 import {interval, Observable} from 'rxjs';
 import {BaseComponent} from '../shared/components/base/base.component';
+import {IConfirmOptions} from '../shared/modal/confirm/confirm.component';
 
 @Component({
     selector: 'app-detail',
@@ -41,7 +42,8 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public stopIfInviteFail = true;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
-                private userFacebookTokenService: UserFacebookTokenService) {
+                private userFacebookTokenService: UserFacebookTokenService,
+                private modalService: ModalService) {
         super();
     }
 
@@ -114,14 +116,23 @@ export class GroupComponent extends BaseComponent implements OnInit {
                         return;
                     }
                     const rs1 = await this.electronService.callApi(this.inviteBody, this.header);
-                    if (rs1 && rs1.indexOf(g) !== -1) {
+                    if (rs1 && rs1.indexOf(i) !== -1) {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
                         this.numberOfSuccessInviteApi++;
+                    } else if (rs1 && rs1.indexOf(g) !== -1) {
+                        this.loggerService.success(`Gọi API thành công: ${i} vào nhóm ${g}`);
                     } else {
+                        this.modalService.confirm(<IConfirmOptions>{
+                            title: `Thông báo`,
+                            message: `Đã có lỗi xảy ra, token hết hạn hoặc đã bị chặn?`,
+                        }).subscribe(() => {
+
+                        });
                         this.ignoreUsers.push(i);
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
-                        this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`
-                        this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công ở api thứ ${rs}\n`
+                        this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`;
+                        this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công ở api thứ ${rs}\n`;
+                        this.onStop();
                     }
                     this.numberOfCalledInviteApi++;
                     if (this.numberOfCalledInviteApi >= this.maxInviteNumber * lsGroupId.length) {
