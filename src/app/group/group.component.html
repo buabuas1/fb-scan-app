@@ -37,6 +37,11 @@
             <div class="m2">
                 <div>Số lần đã gọi api</div>
                 <input type="number" [(ngModel)]="numberOfCalledInviteApi"/>
+                <label class="text-info bg-primary">{{'Đã gọi thành công ' + numberOfSuccessInviteApi + ' chiếm ' + getPercent() + '%'}}</label>
+            </div>
+            <div class="m2">
+                <input class="checkbox-if-fail" type="checkbox" [(ngModel)]="stopIfInviteFail">
+                <label class="text-info bg-primary">Dừng mời nếu lỗi 1 nhóm</label>
             </div>
             <div class="m2">
                 <div>Mời tối đa:</div>

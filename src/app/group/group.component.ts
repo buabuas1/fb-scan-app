@@ -35,7 +35,10 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public autoGetAndInviteFriend$: any;
     public inviteFriend$: any;
     public numberOfCalledInviteApi = 0;
+    public numberOfSuccessInviteApi = 0;
+    public ignoreUsers = [];
     public maxInviteNumber = 50;
+    public stopIfInviteFail = true;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService) {
@@ -107,10 +110,15 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 this.inviteBody.setGroupId(g);
                 this.inviteBody.setUserId(i);
                 try {
+                    if (this.stopIfInviteFail && this.ignoreUsers.indexOf(i) !== -1) {
+                        return;
+                    }
                     const rs1 = await this.electronService.callApi(this.inviteBody, this.header);
                     if (rs1 && rs1.indexOf(g) !== -1) {
                         this.loggerService.success(`Mời thành công: ${i} vào nhóm ${g}`);
+                        this.numberOfSuccessInviteApi++;
                     } else {
+                        this.ignoreUsers.push(i);
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công ở api thứ ${rs}\n`
@@ -197,5 +205,9 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.logContent += `${new Date().toLocaleTimeString()} autoGetAndInviteFriend$ Stopped!`;
         }
         this.Stop();
+    }
+
+    public getPercent() {
+        return Math.round(this.numberOfSuccessInviteApi / this.numberOfCalledInviteApi * 100);
     }
 }
