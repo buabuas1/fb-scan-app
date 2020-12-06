@@ -1,5 +1,5 @@
 
-export class GetMemGroupBodyModel {
+export class GetMemGroupSecondBodyModel {
     av: string;
     __user: string;
     __a: string;
@@ -46,6 +46,12 @@ export class GetMemGroupBodyModel {
     public setNumber(num: number) {
         const body = JSON.parse(this.variables);
         body.count = num;
+        this.variables = JSON.stringify(body);
+    }
+
+    public setCursor(cursor: string) {
+        const body = JSON.parse(this.variables);
+        body.cursor = cursor;
         this.variables = JSON.stringify(body);
     }
 }

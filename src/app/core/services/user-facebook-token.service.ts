@@ -48,6 +48,9 @@ export class UserFacebookTokenService {
         let getMemberOfGroupBody = new GetMemGroupBodyModel(currentToken.getMemberOfGroupBody);
         currentToken.getMemberOfGroupBody = currentToken.getMemberOfGroupBody.replace(getMemberOfGroupBody.fb_dtsg, token);
 
+        let getMemberOfGroupSecondBody = new GetMemGroupBodyModel(currentToken.getMemberOfGroupSecondBody);
+        currentToken.getMemberOfGroupSecondBody = currentToken.getMemberOfGroupSecondBody.replace(getMemberOfGroupSecondBody.fb_dtsg, token);
+
         let getRecentlyFriendBody = new GetMemGroupBodyModel(currentToken.getRecentlyFriendBody);
         currentToken.getRecentlyFriendBody = currentToken.getRecentlyFriendBody.replace(getRecentlyFriendBody.fb_dtsg, token);
 

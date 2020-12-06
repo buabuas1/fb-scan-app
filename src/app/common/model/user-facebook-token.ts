@@ -2,6 +2,7 @@ export class UserFacebookToken {
     getGroupFeedBody: string;
     getRecentlyFriendBody: string;
     getMemberOfGroupBody: string;
+    getMemberOfGroupSecondBody: string;
     inviteFriendToGroupBody: string;
     addFriendBody: string;
     cookie: string;

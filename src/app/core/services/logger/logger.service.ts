@@ -34,7 +34,7 @@ export class LoggerService {
     }
 
     public addLog(currentLog: any, content: string) {
-        currentLog += `${new Date().toLocaleTimeString()} ` + content;
+        currentLog += `${new Date().toLocaleTimeString()} ` + content + '\n';
         return currentLog;
     }
 }
