@@ -11,6 +11,7 @@ import {interval, Observable, Subscription} from 'rxjs';
 import {BlackListService} from '../../core/services/black-list.service';
 import {IConfirmOptions} from '../../shared/modal/confirm/confirm.component';
 import {BaseComponent} from '../../shared/components/base/base.component';
+import {MemberApiService} from '../../core/services/member-api.service';
 
 @Component({
     selector: 'app-add-friend',
@@ -27,11 +28,13 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     public logContent = '';
     public blackListUser = [];
     public callApi$: Subscription;
+    public sizeConsume = 200;
 
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService,
                 private modalService: ModalService,
+                private memberApiService: MemberApiService,
                 private blackListService: BlackListService) {
         super();
     }
@@ -57,6 +60,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
             this.loggerService.warning('Danh sách blacklist đang trống!');
         }
         let listIds = this.listIdsStr.replace(/"/g, '').split(',');
+        this.markAsConsume(listIds);
         listIds = R.uniq(listIds).filter(r => r && !R.any(u => u.userId === r, this.blackListUser));
         this.loggerService.warning(`Có ${listIds.length} user thỏa mãn!`);
         this.logContent += `${new Date().toLocaleTimeString()} Bắt đầu add ${listIds.length} user thỏa mãn!\n`;
@@ -119,5 +123,32 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
         if (this.callApi$) {
             this.callApi$.unsubscribe();
         }
+    }
+
+    public onGetUser() {
+        this.memberApiService.getConsumeMember(this.sizeConsume)
+            .subscribe(rs => {
+                this.listIdsStr = (rs as any[]).map(m => m.userId).join(',');
+                this.loggerService.success(`Get thành công ${(rs as any).length}!`)
+            })
+    }
+
+    private markAsConsume(listIds: string[]) {
+        if(!this.userToken) {
+            this.loggerService.error('Bạn chưa chọn ngời dùng');
+            return;
+        }
+        this.memberApiService.markMemberIsConsumed(listIds, this.userToken.facebookUuid, this.userToken.facebookName)
+            .subscribe(rs => {
+                this.loggerService.success('Đã đánh dấu ds user thành công!');
+            }, error => {
+                this.loggerService.error('Đã có lỗi khi đánh dấu user!');
+                console.log(error);
+            })
+    }
+
+    public onMarkUser() {
+        const ids = this.listIdsStr.replace(/"/g, '').split(',');
+        this.markAsConsume(ids);
     }
 }

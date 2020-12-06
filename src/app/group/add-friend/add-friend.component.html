@@ -6,6 +6,14 @@
     </label>
 </div>
 <div class="m2">
+    <div class="text-white bg-primary"><b>Số lượng user 1 lần</b></div>
+    <label>
+        <input type="number" [(ngModel)]="sizeConsume"/>
+    </label>
+    <button class="btn btn-sm btn-success" (click)="onGetUser()">Get User</button>
+    <button class="btn btn-sm btn-success" (click)="onMarkUser()">Mark User</button>
+</div>
+<div class="m2">
     <button class="btn btn-sm btn-success" (click)="onAddFriend()">Add Friend</button>
     <button class="btn btn-sm btn-danger" (click)="onStop()">Stop</button>
     <div><b>DS ID</b></div>

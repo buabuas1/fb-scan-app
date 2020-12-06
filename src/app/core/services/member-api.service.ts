@@ -19,7 +19,12 @@ export class MemberApiService {
         return this.httpClient.get(`${this.host}api/member?pageSize=${pageSize}`);
     }
 
-    public markMemberIsConsumed(userIds: string[]) {
-        return this.httpClient.post(`${this.host}api/member/mark`, userIds);
+    public markMemberIsConsumed(userIds: string[], userUuid: string, usedByName: string) {
+        const body = {
+            ids: userIds,
+            usedByUuid: userUuid,
+            usedByName: usedByName
+        }
+        return this.httpClient.post(`${this.host}api/member/mark`, body);
     }
 }
