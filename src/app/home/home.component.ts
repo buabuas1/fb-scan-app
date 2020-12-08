@@ -81,20 +81,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
             })
     }
 
-    onOpenSetting() {
-        console.log(this.groups.split(','));
-        this.modalService.openModal({
-            title: 'Ghi chú / Món thêm',
-            inputs: [
-            ],
-            onSubmit: async () => {
-            },
-            component: BodyDetailFormComponent
-        }, {
-            class: 'modal-note'
-        })
-    }
-
     public async callApi() {
         const g = this.groups.split(',');
         const length = g.length;
@@ -149,6 +135,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.bdsContentApiService.login(this.user, this.password).subscribe(u => {
             localStorage.setItem(API_TOKEN_LC_K, u.token);
             this.loggerService.success('Thành công!');
+            this.userFacebookTokenService.resetTokenList();
         }, error => {
             this.loggerService.error(getMessageFromError(error));
         })

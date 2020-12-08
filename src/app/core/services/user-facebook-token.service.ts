@@ -31,7 +31,13 @@ export class UserFacebookTokenService {
 
     saveSettingToken(userToken: UserFacebookToken) {
         if (userToken) {
-            userToken = this.makeUpdateToken(userToken, userToken.token);
+            try {
+                userToken = this.makeUpdateToken(userToken, userToken.token);
+            } catch (e) {
+                console.log(e);
+                this.loggerService.error('Lỗi' + JSON.stringify(e));
+            }
+
             userToken.cookie = userToken.cookie;
         }
         // localStorage.setItem(this.CURRENT_TOKEN_KEY, JSON.stringify(userToken));

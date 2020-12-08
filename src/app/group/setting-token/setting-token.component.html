@@ -11,17 +11,18 @@
                 <input [(ngModel)]="currentToken.facebookName">
             </div>
             <div>
-                <label class="text-info bg-primary">Token</label>
-                <input [(ngModel)]="currentToken.token">
-            </div>
-            <div>
                 <label class="text-info bg-primary">Cookie</label>
                 <input [(ngModel)]="currentToken.cookie">
+            </div>
+            <div>
+                <label class="text-info bg-primary">Token</label>
+                <input [(ngModel)]="currentToken.token">
             </div>
             <div>
                 <label class="text-info bg-primary">Uuid</label>
                 <input [(ngModel)]="currentToken.facebookUuid">
             </div>
+            <button class="btn btn-success btn-sm" (click)="saveData()">Save</button>
         </div>
         <div class="col-sm-6">
             <div>
@@ -50,6 +51,4 @@
             </div>
         </div>
     </div>
-
-    <button class="btn btn-success btn-sm" (click)="saveData()">Save</button>
 </div>
