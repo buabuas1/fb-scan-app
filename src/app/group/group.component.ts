@@ -58,7 +58,6 @@ export class GroupComponent extends BaseComponent implements OnInit {
                     this.header = new HeaderModel(this.userToken);
                     this.inviteBodyStr = this.userToken.inviteFriendToGroupBody;
                     this.inviteBody = new InviteToGroupBodyModel(this.inviteBodyStr);
-                    this.groupId = localStorage.getItem(FB_GROUP_ID_LC_KEY);
                     document.title = this.userToken.facebookName;
                 }
                 this.userFacebookTokenService.resetOldRecentlyFriend();
@@ -96,7 +95,6 @@ export class GroupComponent extends BaseComponent implements OnInit {
 
     public async callInviteApi() {
         const lsGroupId = this.groupId.split(',');
-        localStorage.setItem(FB_GROUP_ID_LC_KEY, this.groupId);
         if (lsGroupId.length === 0 || this.listIds.length === 0) {
             this.loggerService.error('Danh sách nhóm hoặc danh sách user đang trống!');
             this.logContent += `${new Date().toLocaleTimeString()} Danh sách nhóm hoặc danh sách user đang trống!\n`;
@@ -167,11 +165,6 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.loggerService.success('Đã dừng hoàn toàn invite friend');
             this.logContent += `${new Date().toLocaleTimeString()} Đã dừng hoàn toàn invite friend\n`;
         }
-    }
-
-    public changeSetting() {
-        this.isShowSetting = !this.isShowSetting;
-        this.ngOnInit();
     }
 
     public onAuto() {

@@ -10,7 +10,7 @@ import {MemberRoutingModule} from './member/member-routing.module';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'setting',
         pathMatch: 'full'
     },
     {
@@ -22,6 +22,11 @@ const routes: Routes = [
         path: 'member',
         // pathMatch: 'full',
         loadChildren: 'app/member/member.module#MemberModule'
+    },
+    {
+        path: 'setting',
+        // pathMatch: 'full',
+        loadChildren: 'app/setting/setting.module#SettingTokenModule'
     },
     {
         path: '**',

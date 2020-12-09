@@ -3,11 +3,10 @@
     <h1 class="bg-info">
         {{ 'Phát triển nhóm' | translate }}
     </h1>
-    <button class="btn btn-sm btn-warning" (click)="changeSetting()">Setting</button>
     <div>
         <label class="text-info bg-primary">Current User: {{userToken?.facebookName}}</label>
     </div>
-    <div class="row" *ngIf="!isShowSetting">
+    <div class="row">
         <div class="col-md-4">
             <label class="text-info bg-primary">Lấy danh sách bạn mới thêm</label>
             <div class="m2">
@@ -71,8 +70,5 @@
         <div class="col-md-4">
             <app-add-friend></app-add-friend>
         </div>
-    </div>
-    <div class="row" *ngIf="isShowSetting">
-        <app-setting-token></app-setting-token>
     </div>
 </div>

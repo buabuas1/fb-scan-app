@@ -25,6 +25,7 @@ import {ToastrModule} from 'ng6-toastr-notifications';
 import {MyHttpInterceptor} from './common/http/httpinterceptor';
 import {RouterModule} from '@angular/router';
 import {MemberModule} from './member/member.module';
+import {SettingTokenModule} from './setting/setting.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -42,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         HomeModule,
         GroupModule,
         MemberModule,
+        SettingTokenModule,
         AppRoutingModule,
         RouterModule,
         TranslateModule.forRoot({

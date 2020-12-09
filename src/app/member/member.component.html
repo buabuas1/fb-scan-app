@@ -1,36 +1,41 @@
 <div class="container">
-    <div>
-        <label class="text-info bg-primary">Current User: {{userToken?.facebookName}}</label>
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <label class="text-info bg-primary">Current User: {{userToken?.facebookName}}</label>
+            </div>
+            <div class="m2">
+                <h4 class="text-info bg-primary">Nhóm2</h4>
+                <input [(ngModel)]="groupId">
+            </div>
+            <div class="m2">
+                <h4 class="text-info bg-primary">Thời gian giữ 2 lần gọi</h4>
+                <input type="number" [(ngModel)]="spaceTime">
+            </div>
+            <div class="m2">
+                <h4 class="text-info bg-primary">Page size</h4>
+                <input type="number" [(ngModel)]="pageSize">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="m2">
+                <h4 class="text-info bg-primary">Số thành viên đã lấy đc {{numberOfMem}}</h4>
+            </div>
+            <div class="m2">
+                <h4 class="text-info bg-primary">Body First</h4>
+                <textarea [(ngModel)]="userToken.getMemberOfGroupBody"></textarea>
+            </div>
+            <div class="m2">
+                <h4 class="text-info bg-primary">Body Second</h4>
+                <textarea [(ngModel)]="userToken.getMemberOfGroupSecondBody"></textarea>
+            </div>
+            <button class="btn btn-sm btn-success" (click)="onGet()">Get</button>
+            <button class="btn btn-sm btn-danger" (click)="onStop()">Stop</button>
+            <div>
+                <div>Log</div>
+                <textarea [(ngModel)]="logContent"></textarea>
+            </div>
+        </div>
     </div>
-    <div>
-        <div class="m2">
-            <h4 class="text-info bg-primary">Nhóm2</h4>
-            <input [(ngModel)]="groupId">
-        </div>
-        <div class="m2">
-            <h4 class="text-info bg-primary">Thời gian giữ 2 lần gọi</h4>
-            <input type="number" [(ngModel)]="spaceTime">
-        </div>
-        <div class="m2">
-            <h4 class="text-info bg-primary">Page size</h4>
-            <input type="number" [(ngModel)]="pageSize">
-        </div>
-        <div class="m2">
-            <h4 class="text-info bg-primary">Số thành viên đã lấy đc {{numberOfMem}}</h4>
-        </div>
-        <div class="m2">
-            <h4 class="text-info bg-primary">Body First</h4>
-            <textarea [(ngModel)]="userToken.getMemberOfGroupBody"></textarea>
-        </div>
-        <div class="m2">
-            <h4 class="text-info bg-primary">Body Second</h4>
-            <textarea [(ngModel)]="userToken.getMemberOfGroupSecondBody"></textarea>
-        </div>
-        <button class="btn btn-sm btn-success" (click)="onGet()">Get</button>
-        <button class="btn btn-sm btn-danger" (click)="onStop()">Stop</button>
-    </div>
-    <div>
-        <div>Log</div>
-        <textarea [(ngModel)]="logContent"></textarea>
-    </div>
+
 </div>

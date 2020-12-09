@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="col-md-3">
+        <div><b>Call save token</b></div>
+        <div><b>Email</b></div>
+        <input type="text" [(ngModel)]="user">
+        <div><b>PW</b></div>
+        <input type="password" [(ngModel)]="password">
+        <button class="btn btn-sm btn-success" (click)="saveApiToken()">Save</button>
+    </div>
+    <div class="col-md-9">
+        <app-setting-token></app-setting-token>
+    </div>
+</div>
+
