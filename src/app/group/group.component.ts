@@ -141,6 +141,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                     }
                 } catch (ex) {
                     console.log(ex);
+                    console.log('result:', rs);
                     this.loggerService.error(ex);
                 }
                 if (rs === lsGroupId.length * this.listIds.length - 1) {

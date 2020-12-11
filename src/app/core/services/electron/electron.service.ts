@@ -79,7 +79,7 @@ export class ElectronService {
           request.setHeader('pragma', 'no-cache');
           request.setHeader('cache-control', 'no-cache');
           request.setHeader('origin', 'https://www.facebook.com');
-          request.setHeader('user-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/85.0.134 Chrome/79.0.3945.134 Safari/537.36');
+          request.setHeader('user-agent', header.userAgent);
           request.setHeader('viewport-width', '1318');
           request.setHeader('content-type', 'application/x-www-form-urlencoded');
           // request.setHeader('content-length', body.length.toString());

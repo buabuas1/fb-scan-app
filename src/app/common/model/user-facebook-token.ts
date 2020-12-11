@@ -6,6 +6,7 @@ export class UserFacebookToken {
     inviteFriendToGroupBody: string;
     addFriendBody: string;
     cookie: string;
+    agent: string;
     token: string;
     facebookName: string;
     facebookUuid: string;
