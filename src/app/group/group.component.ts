@@ -123,6 +123,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                         this.modalService.confirm(<IConfirmOptions>{
                             title: `Thông báo`,
                             message: `Đã có lỗi xảy ra, token hết hạn hoặc đã bị chặn?`,
+                            ignoreBackdropClick: true
                         }).subscribe(() => {
 
                         });

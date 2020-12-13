@@ -98,6 +98,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                     this.modalService.confirm(<IConfirmOptions>{
                         title: `Thông báo`,
                         message: `Bạn đã adđ ${listIds.length} user bạn có muốn lưu k?`,
+                        ignoreBackdropClick: true
                     }).subscribe(async confirmed => {
                         if (confirmed) {
                             this.blackListService.saveBulkBlackList(listIds, this.userToken.facebookUuid)
