@@ -127,10 +127,16 @@ export class GroupComponent extends BaseComponent implements OnInit {
 
                         });
                         this.ignoreUsers.push(i);
+                        console.log('invite result: ', rs1);
+                        this.logContent += this.loggerService.addLog(this.logContent, `'invite result: ', ${rs1}`);
                         this.loggerService.error(`Mời KHÔNG thành công: ${i} vào nhóm ${g}`);
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công: ${i} vào nhóm ${g}\n`;
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Mời KHÔNG thành công ở api thứ ${rs}\n`;
                         this.onStop();
+                        const parseRs = JSON.parse(rs1);
+                        if (parseRs && parseRs.errors) {
+                            console.log('parseRs.errors ', parseRs.errors)
+                        }
                     }
                     this.numberOfCalledInviteApi++;
                     if (this.numberOfCalledInviteApi >= this.maxInviteNumber * lsGroupId.length) {
