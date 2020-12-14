@@ -29,6 +29,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     public blackListUser = [];
     public callApi$: Subscription;
     public sizeConsume = 200;
+    public currentIndex = 0;
 
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
@@ -71,6 +72,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
         ).takeUntil(this.destroyed$)
             .subscribe(async rs => {
                 const i = listIds[rs];
+                this.currentIndex = rs;
                 const percent = Math.round(rs / listIds.length * 100);
                 if (percent % 20 === 0) {
                     this.logContent += `${new Date().toLocaleTimeString()} mời được ${percent}%!\n`;
@@ -151,5 +153,25 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     public onMarkUser() {
         const ids = this.listIdsStr.replace(/"/g, '').split(',');
         this.markAsConsume(ids);
+    }
+
+    public onUnMarkUser() {
+        const ids = this.listIdsStr.replace(/"/g, '').split(',');
+        const unUserId = ids.slice(this.currentIndex);
+        this.unmarkAsConsume(unUserId);
+    }
+
+    private unmarkAsConsume(listIds: string[]) {
+        if(!this.userToken) {
+            this.loggerService.error('Bạn chưa chọn ngời dùng');
+            return;
+        }
+        this.memberApiService.unmarkMemberIsConsumed(listIds, this.userToken.facebookUuid, this.userToken.facebookName)
+            .subscribe(rs => {
+                this.loggerService.success('Đã đánh dấu ds user thành công!');
+            }, error => {
+                this.loggerService.error('Đã có lỗi khi đánh dấu user!');
+                console.log(error);
+            })
     }
 }

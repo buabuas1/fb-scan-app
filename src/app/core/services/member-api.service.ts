@@ -27,4 +27,13 @@ export class MemberApiService {
         }
         return this.httpClient.post(`${this.host}api/member/mark`, body);
     }
+
+    public unmarkMemberIsConsumed(userIds: string[], userUuid: string, usedByName: string) {
+        const body = {
+            ids: userIds,
+            usedByUuid: userUuid,
+            usedByName: usedByName
+        }
+        return this.httpClient.post(`${this.host}api/member/unmark`, body);
+    }
 }
