@@ -111,6 +111,8 @@ export class GroupComponent extends BaseComponent implements OnInit {
                 this.inviteBody.setUserId(i);
                 try {
                     if (this.stopIfInviteFail && this.ignoreUsers.indexOf(i) !== -1) {
+                        this.logContent += `Error: Ignore user ${i}\n`;
+                        this.loggerService.warning(`Error: Ignore user ${i}`);
                         return;
                     }
                     const rs1 = await this.electronService.callApi(this.inviteBody, this.header);
@@ -119,7 +121,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
                         this.numberOfSuccessInviteApi++;
                     } else if (rs1 && rs1.indexOf(g) !== -1) {
                         this.loggerService.success(`Gọi API thành công: ${i} vào nhóm ${g}`);
-                    } else {
+                    } else if (this.isError(rs1)) {
                         this.modalService.confirm(<IConfirmOptions>{
                             title: `Thông báo`,
                             message: `Đã có lỗi xảy ra, token hết hạn hoặc đã bị chặn?`,
@@ -138,6 +140,10 @@ export class GroupComponent extends BaseComponent implements OnInit {
                         if (parseRs && parseRs.errors) {
                             console.log('parseRs.errors ', parseRs.errors)
                         }
+                    } else {
+                        this.ignoreUsers.push(i);
+                        console.log('invite result: ', rs1);
+                        this.logContent += `${new Date().toLocaleTimeString()} Error: Can not invite ${i} vào nhóm ${g}\n`;
                     }
                     this.numberOfCalledInviteApi++;
                     if (this.numberOfCalledInviteApi >= this.maxInviteNumber * lsGroupId.length) {
@@ -221,5 +227,10 @@ export class GroupComponent extends BaseComponent implements OnInit {
 
     public getPercent() {
         return Math.round(this.numberOfSuccessInviteApi / this.numberOfCalledInviteApi * 100);
+    }
+
+    private isError(rs1: string) {
+        const parseRs = JSON.parse(rs1);
+        return parseRs && parseRs.errors
     }
 }
