@@ -58,8 +58,8 @@ export class MemberComponent extends BaseComponent implements OnInit {
             .subscribe(us => {
                 this.memberApiService.saveMember(us)
                     .subscribe(rs => {
-                        this.loggerService.success(`Lưu thành công ${(rs as any).length}`);
-                        this.loggerService.addLog(this.logContent, `Lưu thành công ${(rs as any).length}`);
+                        this.loggerService.success(`Lưu thành công ${rs}`);
+                        this.loggerService.addLog(this.logContent, `Lưu thành công ${rs}`);
                     }, error => {
                         this.loggerService.error('Lưu user không thành công!');
                         console.log('lưu Không thành công', error);
@@ -97,7 +97,11 @@ export class MemberComponent extends BaseComponent implements OnInit {
                 }
             });
         this.hasNext = true;
-        this.callApi$.next(0);
+        if (this.latestCursor) {
+            this.callApi$.next(1);
+        } else {
+            this.callApi$.next(0);
+        }
         this.isRunning = true;
     }
 
