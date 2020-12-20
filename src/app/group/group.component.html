@@ -22,6 +22,10 @@
                     Thời gian giữa 2 lần gọi api (s)
                     <input type="number" [(ngModel)]="getRecentlyFriendSpaceTime">
                 </label>
+                <label class="text-info">
+                    Bỏ qua 8 người bạn đầu tiên
+                    <input type="checkbox" [(ngModel)]="ignoreFirstList">
+                </label>
                 <button class="btn btn-sm btn-warning" (click)="onAuto()">Auto</button>
                 <button class="btn btn-sm btn-danger" (click)="onStop()">Stop</button>
             </div>

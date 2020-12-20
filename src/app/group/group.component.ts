@@ -40,6 +40,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public ignoreUsers = [];
     public maxInviteNumber = 50;
     public stopIfInviteFail = true;
+    public ignoreFirstList = true;
     constructor(private electronService: ElectronService,
                 private loggerService: LoggerService,
                 private userFacebookTokenService: UserFacebookTokenService,
@@ -208,7 +209,12 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.logContent += `${new Date().toLocaleTimeString()} DS Bạn mới mới ${this.listIdsStr}\n`;
             this.logContent += `${new Date().toLocaleTimeString()} Có ${this.listIds.length} user mới \n`;
 
-            await this.callInviteApi();
+            if (this.ignoreFirstList && rs === 0) {
+                this.loggerService.warning('Bỏ qua 8 ng đầu tiên');
+                this.logContent += `${new Date().toLocaleTimeString()} Bỏ qua 8 ng đầu tiên \n`;
+            } else {
+                await this.callInviteApi();
+            }
 
             if (this.listIds && this.listIds.length > 0) {
                 this.userFacebookTokenService.setOldRecentlyFriend(latestFriends);
