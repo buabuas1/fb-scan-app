@@ -31,11 +31,13 @@
             </div>
             <div class="m2">
                 <div><b>Log</b></div>
-                <textarea [(ngModel)]="log"></textarea>
+                <textarea class="log-area" [(ngModel)]="log"></textarea>
             </div>
             <div class="m2">
                     <div><b>Loại:</b></div>
                     <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
+                    <button class="btn btn-sm btn-warning" (click)="onSelectAllType(true)">All</button>
+                    <button class="btn btn-sm btn-primary" (click)="onSelectAllType(false)">Main</button>
             </div>
         </div>
 

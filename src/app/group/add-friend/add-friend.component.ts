@@ -174,4 +174,8 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                 console.log(error);
             })
     }
+
+    public onSelectFriendSize(number: number) {
+        this.sizeConsume = number;
+    }
 }

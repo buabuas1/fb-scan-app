@@ -9,6 +9,10 @@
     <div class="text-white bg-primary"><b>Số lượng user 1 lần</b></div>
     <label>
         <input type="number" [(ngModel)]="sizeConsume"/>
+        <button class="btn btn-sm btn-primary" (click)="onSelectFriendSize(50)">50</button>
+        <button class="btn btn-sm btn-primary" (click)="onSelectFriendSize(100)">100</button>
+        <button class="btn btn-sm btn-primary" (click)="onSelectFriendSize(150)">150</button>
+        <button class="btn btn-sm btn-primary" (click)="onSelectFriendSize(200)">200</button>
     </label>
     <button class="btn btn-sm btn-success" (click)="onGetUser()">Get User</button>
     <button class="btn btn-sm btn-success" (click)="onMarkUser()">Mark User</button>
@@ -28,5 +32,5 @@
     <button class="btn btn-sm btn-success" (click)="saveInviteBody()">Save</button>
 </div>
 <div class="m2">
-    <textarea [(ngModel)]="logContent"></textarea>
+    <textarea class="log-area" [(ngModel)]="logContent"></textarea>
 </div>
