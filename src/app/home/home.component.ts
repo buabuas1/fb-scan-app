@@ -156,6 +156,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
     public onSelectAllType(b: boolean) {
         this.model.bdsType = b ? [BdsTypeArray[0], BdsTypeArray[1], BdsTypeArray[2], BdsTypeArray[3],
-            BdsTypeArray[4], BdsTypeArray[5]] : [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]];
+            BdsTypeArray[4], BdsTypeArray[5], BdsTypeArray[6]] : [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]];
     }
 }
