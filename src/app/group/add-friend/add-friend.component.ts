@@ -83,6 +83,17 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                     if (rs && rs.indexOf('OUTGOING_REQUEST') !== -1) {
                         this.loggerService.success(`Thêm bạn thành công: ${i}`);
                         successInvited++;
+                    } else if(this.isError(rs)) {
+                        this.loggerService.error(`Bị chặn hoặc token hết hạn: ${i}`);
+                        this.logContent += `Error ${new Date().toLocaleTimeString()} Bị chặn hoặc token hết hạn\n`;
+                        this.modalService.confirm(<IConfirmOptions>{
+                            title: `Thông báo`,
+                            message: `Đã có lỗi xảy ra, token hết hạn hoặc đã bị chặn?`,
+                            ignoreBackdropClick: true
+                        }).subscribe(() => {
+
+                        });
+                        this.onStop()
                     } else {
                         this.loggerService.error(`Thêm bạn KHÔNG thành công: ${i}`);
                         this.logContent += `Error ${new Date().toLocaleTimeString()} Thêm bạn KHÔNG thành công: ${i}\n`;
@@ -177,5 +188,12 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
 
     public onSelectFriendSize(number: number) {
         this.sizeConsume = number;
+    }
+
+    private isError(rs: string) {
+        const parseRs = JSON.parse(rs);
+        console.log('add friend error rs: ', parseRs);
+        console.log('add friend error JSON: ', parseRs.errors);
+        return parseRs && parseRs.errors
     }
 }
