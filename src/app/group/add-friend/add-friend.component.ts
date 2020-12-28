@@ -194,6 +194,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
         console.log('raw rs', rs);
         const parseRs = JSON.parse(rs);
         parseRs.errors ? console.log('add friend error JSON: ', parseRs.errors) : console.log('add friend error rs: ', parseRs);
-        return parseRs && parseRs.errors && rs.indexOf('bạn bị chặn') !== -1;
+        return parseRs && parseRs.errors && parseRs.errors[0] &&
+            (parseRs.errors[0].api_error_code === 10 || parseRs.errors[0].code === 1404078);
     }
 }

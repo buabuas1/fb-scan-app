@@ -12,6 +12,7 @@ import {LoggerService} from '../core/services/logger/logger.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
 import {BdsContentApiService} from '../core/services/bds-content-api/bds-content-api.service';
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
+import {MemberApiService} from '../core/services/member-api.service';
 
 @NgModule({
     declarations: [HomeComponent, BodyDetailFormComponent],
@@ -21,7 +22,8 @@ import {UserFacebookTokenService} from '../core/services/user-facebook-token.ser
         LoggerService,
         FbGroupService,
         BdsContentApiService,
-        UserFacebookTokenService
+        UserFacebookTokenService,
+        MemberApiService
     ]
 })
 export class HomeModule {

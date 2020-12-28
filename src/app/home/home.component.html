@@ -27,6 +27,11 @@
             <div class="m2">
                 <div><b>Nhóm</b></div>
                 <input type="text" [(ngModel)]="groups">
+                <div>
+                    <input type="checkbox" [(ngModel)]="isSaveMember" class="k-checkbox">
+                    <label class="text-info bg-primary">Lưu user sau khi quét xong</label>
+                </div>
+
                 <button class="btn btn-sm btn-success" (click)="callApi()">Fetch</button>
             </div>
             <div class="m2">

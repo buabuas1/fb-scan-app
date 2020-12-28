@@ -18,6 +18,7 @@ import {HeaderModel} from '../common/model/header.model';
 import {UserFacebookTokenService} from '../core/services/user-facebook-token.service';
 import {UserFacebookToken} from '../common/model/user-facebook-token';
 import {BaseComponent} from '../shared/components/base/base.component';
+import {MemberApiService} from '../core/services/member-api.service';
 
 @Component({
     selector: 'app-home',
@@ -50,13 +51,17 @@ export class HomeComponent extends BaseComponent implements OnInit {
     public header = new HeaderModel();
     public fbBody: string;
     public userToken: UserFacebookToken;
+    public members = [];
+    public isSaveMember = true;
+
     constructor(private router: Router,
                 private electronService: ElectronService,
                 private modalService: ModalService,
                 private loggerService: LoggerService,
                 private fbGroupService: FbGroupService,
                 private bdsContentApiService: BdsContentApiService,
-                private userFacebookTokenService: UserFacebookTokenService
+                private userFacebookTokenService: UserFacebookTokenService,
+                private memberApiService: MemberApiService
     ) {
         super();
     }
@@ -94,6 +99,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.loggerService.warning('Đã quét xong! Bạn có thể tiếp tục');
         console.log('GroupId: Done!');
         this.addLog('GroupId: Done!');
+        if (this.isSaveMember) {
+            await this.saveMember();
+        }
     };
     public async getGroupData(groupId: string) {
         // this.body.setBody('fb_dtsg', 'AQE-2qJ4zS4F:AQHRSF1ouoP5');
@@ -112,6 +120,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
                 v.groupId = groupId;
                 return new BdsMongoModel(v);
             });
+            this.members = this.members.concat(save);
             this.bdsContentApiService.saveFbContent(save)
                 .subscribe(rs => {
                     this.loggerService.success(`${rs.toString()} ${save.length}`);
@@ -157,5 +166,33 @@ export class HomeComponent extends BaseComponent implements OnInit {
     public onSelectAllType(b: boolean) {
         this.model.bdsType = b ? [BdsTypeArray[0], BdsTypeArray[1], BdsTypeArray[2], BdsTypeArray[3],
             BdsTypeArray[4], BdsTypeArray[5], BdsTypeArray[6]] : [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]];
+    }
+
+    private async saveMember() {
+        let Ids = this.members.filter(r => r.authorId).map(m => {
+            return {
+                userId: m.authorId,
+                groupId: m.groupId
+            };
+        });
+        Ids = R.uniqBy(c => c.userId, Ids);
+        console.log(Ids.length);
+        const total = Ids.length;
+        let newMem = 0;
+        while (Ids && Ids.length > 0) {
+            const data = Ids.splice(0, 200);
+            try {
+                const rs = await this.memberApiService.saveMember(data).toPromise();
+                newMem+= rs as any;
+                this.loggerService.success(`Thành công ${rs}! Còn ${Ids.length}`);
+                console.log(`Thành công! Còn ${Ids.length}`);
+            } catch (error) {
+                this.loggerService.success(`Lỗi`);
+                console.log(error);
+            }
+        }
+
+        this.addLog('Tổng user: ' + total);
+        this.addLog('New user: ' + newMem);
     }
 }
