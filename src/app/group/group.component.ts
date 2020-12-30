@@ -83,6 +83,7 @@ export class GroupComponent extends BaseComponent implements OnInit {
             this.loggerService.success(`Tên: ${data.map(u => u.node.title.text).join(', ')}`);
             this.logContent += `${new Date().toLocaleTimeString()} Tên: ${data.map(u => u.node.title.text).join(', ')}\n`;
         } catch (e) {
+            this.onStop()
             this.loggerService.error(JSON.stringify(e));
             console.log(e);
             this.logContent += `Error ${new Date().toLocaleTimeString()} Get bạn gần đây KHÔNG thành công \n`
