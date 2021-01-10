@@ -237,7 +237,12 @@ export class GroupComponent extends BaseComponent implements OnInit {
     }
 
     private isError(rs1: string) {
-        const parseRs = JSON.parse(rs1);
-        return parseRs && parseRs.errors
+        try {
+            const parseRs = JSON.parse(rs1);
+            return parseRs && parseRs.errors
+        } catch (e) {
+            console.log('rs1:', rs1);
+            return true;
+        }
     }
 }

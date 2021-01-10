@@ -44,6 +44,12 @@
                     <button class="btn btn-sm btn-warning" (click)="onSelectAllType(true)">All</button>
                     <button class="btn btn-sm btn-primary" (click)="onSelectAllType(false)">Main</button>
             </div>
+            <div class="m2">
+                <div><b>Loại muốn lưu user:</b></div>
+                <kendo-multiselect [data]="listItems" [(ngModel)]="model.bdsSaveType" [textField]="'value'" [valueField]="'key'" (valueChange)="onBdsTypeChange($event)"></kendo-multiselect>
+                <button class="btn btn-sm btn-warning" (click)="onSelectAllSaveType(true)">All</button>
+                <button class="btn btn-sm btn-primary" (click)="onSelectAllSaveType(false)">Main</button>
+            </div>
         </div>
 
     </div>

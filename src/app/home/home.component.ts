@@ -41,7 +41,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
         typeDate: 'all',
         from: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
         to: new Date(),
-        bdsType: [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]], // TIM_PHONG
+        bdsType: [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[2],BdsTypeArray[3],BdsTypeArray[4],BdsTypeArray[5]], // TIM_PHONG
+        bdsSaveType: [BdsTypeArray[0],BdsTypeArray[2],BdsTypeArray[3],BdsTypeArray[4],BdsTypeArray[5]],
         typePrice: 'all',
         priceFrom: 0,
         priceTo: 100000000,
@@ -169,7 +170,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
 
     private async saveMember() {
-        let Ids = this.members.filter(r => r.authorId).map(m => {
+        let Ids = this.members.filter(r => r.authorId && R.any(t => this.model.bdsSaveType.findIndex(s => s.key === t) !== -1, r.contentTypes)).map(m => {
             return {
                 userId: m.authorId,
                 groupId: m.groupId
@@ -194,5 +195,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
         this.addLog('Tổng user: ' + total);
         this.addLog('New user: ' + newMem);
+    }
+
+    public onSelectAllSaveType(b: boolean) {
+        this.model.bdsSaveType = b ? [BdsTypeArray[0], BdsTypeArray[1], BdsTypeArray[2], BdsTypeArray[3],
+            BdsTypeArray[4], BdsTypeArray[5], BdsTypeArray[6]] : [BdsTypeArray[0],BdsTypeArray[2], BdsTypeArray[3],
+            BdsTypeArray[4], BdsTypeArray[5], BdsTypeArray[6]];
     }
 }
