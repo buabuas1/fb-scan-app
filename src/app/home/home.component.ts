@@ -113,6 +113,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
             rs = await this.electronService.callApi(this.body, this.header);
             this.loggerService.success(`get success: ${groupId}`);
             let data = this.fbGroupService.processScanData(rs.toString()) as IBDSModel[];
+            this.members = this.members.concat(data.filter(r =>
+                R.any(i => r.postTime.getTime() > moment(new Date()).add(-2, 'day'))));
+
             data = data.filter(r =>
                 R.any(i => this.model.bdsType.findIndex(h => h.key === i) !== -1,
                     r.contentTypes) && r.postTime.getTime() > moment(new Date()).add(-2, 'day'));
@@ -121,7 +124,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
                 v.groupId = groupId;
                 return new BdsMongoModel(v);
             });
-            this.members = this.members.concat(save);
             this.bdsContentApiService.saveFbContent(save)
                 .subscribe(rs => {
                     this.loggerService.success(`${rs.toString()} ${save.length}`);
