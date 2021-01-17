@@ -22,6 +22,15 @@ export class SettingTokenComponent extends BaseComponent implements OnInit {
             .takeUntil(this.destroyed$)
             .subscribe(rs => {
                 this.userTokens = rs;
+                this.userTokens = this.userTokens.sort((r1, r2) => {
+                    if (r1.facebookName > r2.facebookName) {
+                        return 1;
+                    }
+                    if (r1.facebookName < r2.facebookName) {
+                        return -1;
+                    }
+                    return 0;
+                });
             })
         this.userFacebookTokenService.activeToken
             .takeUntil(this.destroyed$)
