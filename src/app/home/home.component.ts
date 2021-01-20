@@ -52,7 +52,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     public header = new HeaderModel();
     public fbBody: string;
     public userToken: UserFacebookToken;
-    public members = [];
+    public members: IBDSModel[] = [];
     public isSaveMember = true;
 
     constructor(private router: Router,
@@ -172,6 +172,44 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
 
     private async saveMember() {
+        // test
+        // this.members = [];
+        // for (let i = 0; i < 10; i ++) {
+        //     this.members.push({
+        //         contentTypes: [BdsTypeArray[6]],
+        //         content: 'abc ' + i,
+        //     } as IBDSModel)
+        // }
+        // for (let i = 0; i < 10; i ++) {
+        //     this.members.push({
+        //         contentTypes: [BdsTypeArray[2]],
+        //         content: 'abc ' + i,
+        //     } as IBDSModel)
+        // }
+        // for (let i = 0; i < 10; i ++) {
+        //     this.members.push({
+        //         contentTypes: [BdsTypeArray[1]],
+        //         content: 'abc ' + i,
+        //     } as IBDSModel)
+        // }
+        // for (let i = 0; i < 10; i ++) {
+        //     this.members.push({
+        //         contentTypes: [BdsTypeArray[0]],
+        //         content: 'abc ' + i,
+        //     } as IBDSModel)
+        // }
+        this.members = this.members.sort((r1, r2) => {
+            if (r1.contentTypes && r1.contentTypes.indexOf(BdsTypeArray[1]) !== -1
+                && r2.contentTypes && r2.contentTypes.indexOf(BdsTypeArray[1]) === -1) {
+                return -1;
+            }
+            if (r1.contentTypes && r1.contentTypes.indexOf(BdsTypeArray[1]) === -1
+                && r2.contentTypes && r2.contentTypes.indexOf(BdsTypeArray[1]) !== -1) {
+                return 1;
+            }
+            return 0;
+        })
+        console.log('mem ', this.members);
         let Ids = this.members.filter(r => r.authorId && R.any(t => this.model.bdsSaveType.findIndex(s => s.key === t) !== -1, r.contentTypes)).map(m => {
             return {
                 userId: m.authorId,
