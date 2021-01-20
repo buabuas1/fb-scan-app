@@ -10,4 +10,5 @@ export class UserFacebookToken {
     token: string;
     facebookName: string;
     facebookUuid: string;
+    position: number;
 }

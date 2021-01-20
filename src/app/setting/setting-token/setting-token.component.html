@@ -26,6 +26,10 @@
                 <label class="text-info bg-primary">Uuid</label>
                 <input [(ngModel)]="currentToken.facebookUuid">
             </div>
+            <div>
+                <label class="text-info bg-primary">Vị trí</label>
+                <input type="number" [(ngModel)]="currentToken.position">
+            </div>
             <button class="btn btn-success btn-sm" (click)="saveData()">Save</button>
         </div>
         <div class="col-sm-6">

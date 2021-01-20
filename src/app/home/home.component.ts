@@ -42,7 +42,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         from: moment(new Date().setHours(0, 0, 0, 0)).add(-1, 'day').toDate(),
         to: new Date(),
         bdsType: [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[2],BdsTypeArray[3],BdsTypeArray[4],BdsTypeArray[5]], // TIM_PHONG
-        bdsSaveType: [BdsTypeArray[0],BdsTypeArray[2],BdsTypeArray[3],BdsTypeArray[4],BdsTypeArray[5]],
+        bdsSaveType: [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[2],BdsTypeArray[3],BdsTypeArray[4],BdsTypeArray[5]],
         typePrice: 'all',
         priceFrom: 0,
         priceTo: 100000000,

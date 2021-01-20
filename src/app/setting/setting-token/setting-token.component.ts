@@ -23,10 +23,10 @@ export class SettingTokenComponent extends BaseComponent implements OnInit {
             .subscribe(rs => {
                 this.userTokens = rs;
                 this.userTokens = this.userTokens.sort((r1, r2) => {
-                    if (r1.facebookName > r2.facebookName) {
+                    if (r1.position > r2.position) {
                         return 1;
                     }
-                    if (r1.facebookName < r2.facebookName) {
+                    if (r1.position  < r2.position) {
                         return -1;
                     }
                     return 0;
