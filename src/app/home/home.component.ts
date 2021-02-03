@@ -7,7 +7,7 @@ import {ModalService} from '../core/services/modal/modal.service';
 import {BodyDetailFormComponent} from './component/body-detail-form/body-detail-form.component';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
-import {API_TOKEN_LC_K, BdsTypeArray, FB_COOKIE_LC_KEY, FB_TOKEN_LC_KEY} from '../common/constant';
+import {API_TOKEN_LC_K, BdsTypeArray, FB_COOKIE_LC_KEY, FB_TOKEN_LC_KEY, GROUP_ALL} from '../common/constant';
 import {IBDSModel} from '../common/model/facebook/IBDS.model';
 import * as R from 'ramda';
 import {moment} from 'ngx-bootstrap/chronos/test/chain';
@@ -27,7 +27,7 @@ import {MemberApiService} from '../core/services/member-api.service';
 })
 export class HomeComponent extends BaseComponent implements OnInit {
     public body = new GetGroupBodyModel();
-    public groups = '';
+    public groups = GROUP_ALL;
     public defaultSaveType = [BdsTypeArray[0],BdsTypeArray[1],BdsTypeArray[5]]
     public FB_TOKEN_LC_KEY = FB_TOKEN_LC_KEY;
     public FB_COOKIE_LC_KEY = FB_COOKIE_LC_KEY;
