@@ -29,9 +29,9 @@ export class GroupComponent extends BaseComponent implements OnInit {
     public inviteBody = new InviteToGroupBodyModel();
     public isShowSetting = false;
     public userToken: UserFacebookToken;
-    public timeSpace = 30;
+    public timeSpace = 60;
     public logContent = '';
-    public getRecentlyFriendSpaceTime = 20 * 60;
+    public getRecentlyFriendSpaceTime = 2000; //33 * 60;
     public isRunningInviteFriend = false;
     public autoGetAndInviteFriend$: any;
     public inviteFriend$: any;

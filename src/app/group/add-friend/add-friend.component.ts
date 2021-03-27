@@ -24,7 +24,7 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
     public inviteBody: InviteFriendBodyModel;
     public header: HeaderModel;
     public userToken: UserFacebookToken;
-    public spaceTime = 30;
+    public spaceTime = 80;
     public logContent = '';
     public blackListUser = [];
     public callApi$: Subscription;
