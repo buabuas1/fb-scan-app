@@ -126,12 +126,12 @@ export class BdsTypeService {
                     .feedback_target_with_context.display_comments.edges) {
                     f.node.comet_sections.feedback.story.feedback_context
                         .feedback_target_with_context.display_comments.edges.forEach(c => {
-                        const parentContent = f.node.comet_sections.content.story.comet_sections.message.story.message.text;
+                        const parentContent = f.node.comet_sections.content.story.comet_sections.message ? f.node.comet_sections.content.story.comet_sections.message.story.message.text : 'empty';
                         rs.push(new CommentModel(c, parentContent));
                     });
                 }
             } catch (e) {
-                console.log('Lỗi ', e);
+                console.log('comment Lỗi ', e);
                 console.log('record lỗi ', f);
             }
         });

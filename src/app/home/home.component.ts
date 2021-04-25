@@ -7,7 +7,7 @@ import {ModalService} from '../core/services/modal/modal.service';
 import {BodyDetailFormComponent} from './component/body-detail-form/body-detail-form.component';
 import {LoggerService} from '../core/services/logger/logger.service';
 import {FbGroupService} from '../core/services/fb-group/fb-group.service';
-import {API_TOKEN_LC_K, BdsTypeArray, FB_COOKIE_LC_KEY, FB_TOKEN_LC_KEY, GROUP_ALL} from '../common/constant';
+import {API_TOKEN_LC_K, BdsTypeArray, FB_COOKIE_LC_KEY, FB_TOKEN_LC_KEY} from '../common/constant';
 import {IBDSModel} from '../common/model/facebook/IBDS.model';
 import * as R from 'ramda';
 import {moment} from 'ngx-bootstrap/chronos/test/chain';
@@ -19,7 +19,7 @@ import {UserFacebookTokenService} from '../core/services/user-facebook-token.ser
 import {UserFacebookToken} from '../common/model/user-facebook-token';
 import {BaseComponent} from '../shared/components/base/base.component';
 import {MemberApiService} from '../core/services/member-api.service';
-
+import  {GROUP_ALL} from '../../assets/groupid';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -54,6 +54,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     public userToken: UserFacebookToken;
     public members: IBDSModel[] = [];
     public isSaveMember = true;
+    public isStopped = false;
 
     constructor(private router: Router,
                 private electronService: ElectronService,
@@ -88,11 +89,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
     }
 
     public async callApi() {
+        this.isStopped = false;
         const g = this.groups.split(',');
         const length = g.length;
         for (let i = 0; i < length; i++) {
             if (!g[i]) {
                 continue;
+            }
+            if (this.isStopped) {
+                break;
             }
             await this.getGroupData(removeSpace(g[i]));
             this.loggerService.success(`${Math.round((i+1)*100/length)}%`);
@@ -124,6 +129,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
                 v.groupId = groupId;
                 return new BdsMongoModel(v);
             });
+            this.notiResult(save);
             this.bdsContentApiService.saveFbContent(save)
                 .subscribe(rs => {
                     this.loggerService.success(`${rs.toString()} ${save.length}`);
@@ -241,5 +247,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.model.bdsSaveType = b ? [BdsTypeArray[0], BdsTypeArray[1], BdsTypeArray[2], BdsTypeArray[3],
             BdsTypeArray[4], BdsTypeArray[5], BdsTypeArray[6]] : [BdsTypeArray[0],BdsTypeArray[2], BdsTypeArray[3],
             BdsTypeArray[4], BdsTypeArray[5], BdsTypeArray[6]];
+    }
+
+    private notiResult(save: BdsMongoModel[] = []) {
+        const feedCount = save.filter(s => s.isComment).length;
+        const commentCount = save.filter(s => !s.isComment).length;
+        this.loggerService.warning(`Tổng: ${save.length}, Feed: ${feedCount}, Comment: ${commentCount}`);
+    }
+
+    public stopCallApi() {
+        this.isStopped = true;
     }
 }

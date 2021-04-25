@@ -73,8 +73,9 @@ export function removeVietnameseTones(str) {
     return str;
 }
 
-export function getGroupIdFromUrl(url: string) {
-    return url.split('/')[4];
+
+export function getUrlFromMetaData(metadata = []) {
+    return metadata[0]?.story?.url || metadata[1]?.story?.url || 'empty';
 }
 
 export function removeSpace(str: string) {

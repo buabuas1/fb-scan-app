@@ -1,4 +1,3 @@
-import {getGroupIdFromUrl} from '../../util';
 import {IBDSModel} from './IBDS.model';
 
 export class CommentModel implements IBDSModel {
@@ -21,15 +20,74 @@ export class CommentModel implements IBDSModel {
     public parentContent: string;
 
     constructor(feed: any, parentContent?: string) {
-        this.url = feed.node.url;
-        this.content = feed.node.body.text;
-        this.postTime = new Date(feed.node.created_time * 1000);
-        this.id = feed.node.legacy_fbid;
-        this.groupId = getGroupIdFromUrl(this.url);
-        this.authorId = feed.node.author.id;
-        this.isComment = true;
-        this.parentContent = parentContent || '';
+        try {
+            this.url = getUrl(feed);
+            this.content = getContent(feed);
+            this.postTime = getPostTime(feed);
+            this.id = getId(feed);
+            this.groupId = getGroupIdFromUrl(this.url);
+            this.authorId = getAuthor(feed);
+            this.isComment = true;
+            this.parentContent = parentContent || '';
+        } catch (e) {
+            console.log('COMMENT KHỞI TẠO Link', this.url);
+            throw e;
+        }
+
     }
+}
+
+function getUrl(feed) {
+    try {
+        return feed.node.url;
+    } catch (e) {
+        console.log('COMMENT getUrl lỗi', e);
+        throw e;
+    }
+}
+
+function getContent(feed) {
+    try {
+        return feed.node.body.text;
+    } catch (e) {
+        console.log('COMMENT getContent lỗi');
+        return '';
+    }
+}
+
+function getPostTime(feed) {
+    try {
+        return new Date(feed.node.created_time * 1000);
+    } catch (e) {
+        console.log('COMMENT getPostTime lỗi', e);
+        throw e;
+    }
+}
+
+function getId(feed: any) {
+    try {
+        return feed.node.legacy_fbid;
+    } catch (e) {
+        console.log('COMMENT getId lỗi', e);
+        throw e;
+    }
+}
+
+function getGroupIdFromUrl(url: string) {
+    try {
+        return url.split('/')[4];
+    } catch (e) {
+        console.log('COMMENT getGroupIdFromUrl lỗi', e);
+        throw e;
+    }
+}
 
 
+function getAuthor(feed: any) {
+    try {
+        return feed.node.author.id;
+    } catch (e) {
+        console.log('COMMENT getAuthor lỗi', e);
+        throw e;
+    }
 }
