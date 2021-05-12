@@ -199,6 +199,11 @@ export class AddFriendComponent extends BaseComponent implements OnInit {
                 (parseRs.errors[0].api_error_code === 10 || parseRs.errors[0].code === 1404078);
         } catch (e) {
             console.log('rs:', rs);
+            if (typeof rs === 'string') {
+                if (rs.indexOf('1357004') !== -1) {
+                    return false;
+                }
+            }
             return true;
         }
 
