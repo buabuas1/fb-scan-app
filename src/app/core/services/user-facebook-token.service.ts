@@ -85,9 +85,18 @@ export class UserFacebookTokenService {
 
     public resetTokenList() {
         this.getSettingToken()
-            .subscribe(rs => {
+            .withLatestFrom(this.activeToken.take(1))
+            .subscribe(([rs, active]) => {
                 this.loggerService.success('Tải về danh sách token thành công!');
-                this.tokenList.next(rs as UserFacebookToken[]);
+                let a = rs as UserFacebookToken[];
+                a = a.map(tk => {
+                    return this.makeUpdateToken(tk, tk.token);
+                });
+                this.tokenList.next(a);
+                const cur = a.find(t => t.facebookUuid === active.facebookUuid);
+                if (cur) {
+                    this.activeToken.next(cur);
+                }
             })
 
     }
