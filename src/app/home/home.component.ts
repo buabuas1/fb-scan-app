@@ -55,6 +55,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     public members: IBDSModel[] = [];
     public isSaveMember = true;
     public isStopped = false;
+    public errorGroupIds = [];
 
     constructor(private router: Router,
                 private electronService: ElectronService,
@@ -92,6 +93,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.isStopped = false;
         const g = this.groups.split(',');
         const length = g.length;
+        this.errorGroupIds = [];
         for (let i = 0; i < length; i++) {
             if (!g[i]) {
                 continue;
@@ -137,6 +139,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
                     this.loggerService.error(`${rs.toString()} ${save.length}`);
                 })
         } catch (e) {
+            this.errorGroupIds.push(groupId);
             console.log('Lỗi GroupId', e);
             console.log('GroupId: ', groupId);
             this.addLog('GroupId: ' + groupId);
@@ -257,5 +260,27 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
     public stopCallApi() {
         this.isStopped = true;
+    }
+
+    public async recallCallApi() {
+        this.isStopped = false;
+        const g = this.errorGroupIds;
+        const length = g.length;
+        for (let i = 0; i < length; i++) {
+            if (!g[i]) {
+                continue;
+            }
+            if (this.isStopped) {
+                break;
+            }
+            await this.getGroupData(removeSpace(g[i]));
+            this.loggerService.success(`${Math.round((i+1)*100/length)}%`);
+        }
+        this.loggerService.warning('Đã quét xong! Bạn có thể tiếp tục');
+        console.log('GroupId: Done!');
+        this.addLog('GroupId: Done!');
+        if (this.isSaveMember) {
+            await this.saveMember();
+        }
     }
 }
