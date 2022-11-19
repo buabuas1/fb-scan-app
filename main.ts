@@ -3,9 +3,9 @@ import * as path from 'path';
 import * as url from 'url';
 
 let win: BrowserWindow = null;
-const args = process.argv.slice(1),
+const args = process.argv,
   serve = args.some(val => val === '--serve');
-
+console.log('abc', args);
 function createWindow(): BrowserWindow {
 
   const electronScreen = screen;

@@ -1,5 +1,5 @@
 export const AppConfig = {
   production: false,
   environment: 'LOCAL',
-    beHost: 'https://fs-be.herokuapp.com/'
+    beHost: 'https://kind-ruby-bighorn-sheep-wig.cyclic.app/'
 };

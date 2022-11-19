@@ -8,6 +8,7 @@ export const BdsType = {
     CHO_THUE_NHA: 'CHO_THUE_NHA'
 };
 export const FB_COOKIE_LC_KEY = 'FB_COOKIE_LC_KEY';
+export const FB_GROUP_KEY = 'FB_GROUP_KEY';
 export const FB_INVITE_LC_KEY = 'FB_INVITE_LC_KEY';
 export const FB_FRIEND_ADD_LC_KEY = 'FB_FRIEND_ADD_LC_KEY';
 export const FB_GET_MEM_LC_KEY = 'FB_GET_MEM_LC_KEY';
