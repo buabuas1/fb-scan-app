@@ -11,6 +11,7 @@ export class BdsMongoModel {
     public authorId: string;
     public isComment: boolean;
     public parentContent: string;
+    public numberOfRooms: number;
 
     constructor(source: any) {
         this.content = source.content;
@@ -25,5 +26,6 @@ export class BdsMongoModel {
         this.authorId = source.authorId;
         this.isComment = source.isComment;
         this.parentContent = source.parentContent;
+        this.numberOfRooms = source.numberOfRooms;
     }
 }

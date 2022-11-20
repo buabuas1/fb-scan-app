@@ -12,6 +12,7 @@ export class GroupFeedModel implements IBDSModel {
     public postTimeView: Date;
     public contentTypes: any[];
     public numberCosts: any[];
+    public numberOfRooms: number;
     public fbType: string;
     public id: string;
     public authorId: string;

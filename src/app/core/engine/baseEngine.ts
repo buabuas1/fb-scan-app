@@ -7,3 +7,7 @@ export interface IBDSType {
 export interface ICost {
     getCosts(entity: IBDSModel): any[];
 }
+
+export interface INumberOfRoom {
+    getNumberOfRoom(entity: IBDSModel): number[];
+}

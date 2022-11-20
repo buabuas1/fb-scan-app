@@ -7,6 +7,7 @@ export interface IBDSModel {
     content: string;
     bdsType: string;
     contentTypes: any[];
+    numberOfRooms: number;
     fbType: string;
     id: string;
     url: string;

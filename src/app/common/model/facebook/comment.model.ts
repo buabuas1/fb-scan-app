@@ -9,6 +9,7 @@ export class CommentModel implements IBDSModel {
     fbType: string;
     id: string;
     numberCosts: any[];
+    numberOfRooms: number;
     postTime: any;
     postTimeView: Date;
     public url: string;

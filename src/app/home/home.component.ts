@@ -233,7 +233,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         const total = Ids.length;
         let newMem = 0;
         while (Ids && Ids.length > 0) {
-            const data = Ids.splice(0, 200);
+            const data = Ids.splice(0, 100);
             try {
                 const rs = await this.memberApiService.saveMember(data).toPromise();
                 newMem+= rs as any;

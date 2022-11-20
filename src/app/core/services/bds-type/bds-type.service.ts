@@ -5,11 +5,12 @@ import {FindRoomEngine} from '../../engine/findRoomEngine';
 import {ChangeHostEngine} from '../../engine/changeHostEngine';
 import {OfficeEngine} from '../../engine/officeEngine';
 import {SecondHandEngine} from '../../engine/secondHandEngine';
-import {IBDSType, ICost} from '../../engine/baseEngine';
+import {IBDSType, ICost, INumberOfRoom} from '../../engine/baseEngine';
 import {CostEngine} from '../../engine/costEngine';
 import {GroupFeedModel} from '../../../common/model/facebook/group-feed.model';
 import {CommentModel} from '../../../common/model/facebook/comment.model';
 import {IBDSModel} from '../../../common/model/facebook/IBDS.model';
+import {NumberOfRoomEngine} from '../../engine/numberOfRoomEngine';
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +90,13 @@ export class BdsTypeService {
         return engine;
     }
 
+    public factoryBDSNumberOfRoom = (engineType?: string): INumberOfRoom => {
+        const type = {Type: NumberOfRoomEngine};
+        const engine = Object.create(type.Type.prototype) as INumberOfRoom;
+        engine.constructor.apply(engine);
+        return engine;
+    }
+
     public getBDSType(model: IBDSModel): any[] {
         const types = [];
         for (let i = 0; i < this.engineTypes.length; i++) {
@@ -105,10 +113,17 @@ export class BdsTypeService {
         return engine.getCosts(data);
     }
 
+    public getBDSNumberOfRoom(data: IBDSModel) {
+        const engine = this.factoryBDSNumberOfRoom();
+        return engine.getNumberOfRoom(data);
+    }
+
     public classifyBDSType(data: Array<GroupFeedModel>) {
         return data.map(d => {
             d.contentTypes = this.getBDSType(d);
             d.costs = this.getBDSCost(d);
+            const numberOfRoom = this.getBDSNumberOfRoom(d);
+            d.numberOfRooms = numberOfRoom.length > 0 ? Math.max(...numberOfRoom) : 0;
             return d;
         });
     }
