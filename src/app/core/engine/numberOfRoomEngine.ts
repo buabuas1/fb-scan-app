@@ -3,7 +3,7 @@ import {IBDSModel} from '../../common/model/facebook/IBDS.model';
 import {removeVietnameseTones} from '../../common/util';
 
 export class NumberOfRoomEngine implements INumberOfRoom {
-    private regex = /\d+(phon|pkk| phon| pkk| 1k1n|1k1n| 1n1k|1n1k)/gmi;
+    private regex = /\d+(phon|pkk| phon| pkk| 1k1n|1k1n| 1n1k|1n1k | pn|pn)/gmi;
     private regexTrash = /t[^r \d \W]|tr[^i\d \W]/gmiu;
 
     getNumberOfRoom(entity: IBDSModel): any[] {
